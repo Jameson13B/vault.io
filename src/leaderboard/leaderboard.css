@@ -1,0 +1,36 @@
+.leaderboard {
+  background-color: var(--dark);
+  padding: 16px;
+  flex-grow: 1;
+}
+.leaderboard .custom-row {
+  background: var(--dark);
+  border-radius: 12px;
+  border: 1px solid var(--yellow);
+  color: var(--darkyellow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+.leaderboard .custom-row.active {
+  background-color: var(--darkyellow);
+  border-color: #fdc921;
+  color: var(--dark);
+}
+.leaderboard .custom-row.banked {
+  padding: 12.5px 16px;
+}
+.leaderboard .custom-row p {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin: 0;
+}
+.leaderboard .custom-row p.small {
+  font-size: 12px;
+}
+.leaderboard .custom-row span {
+  margin-right: 16px;
+}
