@@ -6,7 +6,7 @@ interface useBankRequestProps {
 type useBankReturnProps = {
   gameState: GameState
   addPlayer: (name: string) => void
-  bank: (playersToBank: string[]) => void
+  bank: (playersToVault: string[]) => void
   removePlayer: (name: string) => void
   replay: () => void
   rollDice: (roll: number, double?: boolean) => void
@@ -14,17 +14,17 @@ type useBankReturnProps = {
 type Player = {
   name: string
   score: number
-  is_banked: boolean
+  is_vaulted: boolean
   id: number
 }
 export type GameState = {
   current_round: number
   game_over: boolean
   players: Player[]
-  roll_count: number
+  roll_count: number // Replace with roll_history.length
   roll_queue: Player[]
   round_over: boolean
-  round_total: number
+  round_total: number // Replace with sum of roll_history.value
   total_rounds: number
   next_to_roll: number
 }
@@ -43,7 +43,7 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
   })
 
   useEffect(() => {
-    setGameState((gameState) => ({ ...gameState, total_rounds: props.rounds }))
+    setGameState((gameState) => ({ ...gameState, total_rounds: 3 }))
   }, [props.rounds])
 
   useEffect(() => {
@@ -60,14 +60,14 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
 
         setGameState((gameState) => ({
           ...gameState,
-          current_round: gameState.current_round + 1,
-          players: gameState.players.map((player) => ({
-            ...player,
-            is_banked: false,
-          })),
-          roll_count: 0,
+          // current_round: gameState.current_round + 1,
+          // players: gameState.players.map((player) => ({
+          //   ...player,
+          //   is_vaulted: false,
+          // })),
+          // roll_count: 0,
           roll_queue: newQueue,
-          round_over: false,
+          // round_over: false,
           round_total: 0,
           next_to_roll: 0,
         }))
@@ -85,7 +85,7 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
       const newPlayer: Player = {
         name,
         score: 0,
-        is_banked: false,
+        is_vaulted: false,
         id: gameState.players.length,
       }
 
@@ -145,15 +145,8 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
           return roll
         }
       }
-      const roundOver = () => {
-        if (gameState.round_over) {
-          return false
-        } else if (roll === 7 && gameState.roll_count >= 3) {
-          return true
-        } else {
-          return gameState.round_over
-        }
-      }
+      const roundOver = () =>
+        roll === 7 && gameState.roll_count >= 3 ? true : gameState.round_over
 
       setGameState({
         ...gameState,
@@ -177,20 +170,20 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
   )
 
   const bank = useCallback(
-    (playersToBank: string[]) => {
-      if (!playersToBank || playersToBank.length === 0)
-        throw new Error('playersToBank is required')
+    (playersToVault: string[]) => {
+      if (!playersToVault || playersToVault.length === 0)
+        throw new Error('playersToVault is required')
       const bankedPlayers = []
 
       const updatedPlayers = gameState.players.map((player) => {
-        if (player.is_banked || playersToBank.includes(player.name))
+        if (player.is_vaulted || playersToVault.includes(player.name))
           bankedPlayers.push(player)
 
-        return playersToBank.includes(player.name)
+        return playersToVault.includes(player.name)
           ? {
               ...player,
               score: player.score + gameState.round_total,
-              is_banked: true,
+              is_vaulted: true,
             }
           : player
       })
@@ -204,7 +197,7 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
             : false,
         players: updatedPlayers,
         roll_queue: gameState.roll_queue.filter(
-          (player) => !playersToBank.includes(player.name)
+          (player) => !playersToVault.includes(player.name)
         ),
         round_over: bankedPlayers.length === gameState.players.length,
         next_to_roll:
@@ -221,9 +214,11 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
       return {
         ...player,
         score: 0,
-        is_banked: false,
+        is_vaulted: false,
       }
     })
+
+    console.log('gameState.roll_queue', gameState.roll_queue)
     setGameState({
       current_round: 1,
       game_over: false,

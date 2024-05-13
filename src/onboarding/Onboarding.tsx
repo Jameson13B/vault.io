@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './onboarding.css'
-import { GameState } from '../hooks/useBank'
+import { GameState } from '../hooks/useBankNew'
 import DeleteIcon from '../assets/delete_icon.svg'
 
 type OnboardingHeaderProps = {

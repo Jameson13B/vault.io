@@ -1,28 +1,35 @@
 import './footer.css'
-import { GameState } from '../hooks/useBank'
+import { GameState } from '../hooks/useBankNew'
 import { OnboardingFooter } from '../onboarding/Onboarding'
 import UndoIcon from '../assets/undo_icon.svg'
 
 type FooterProps = {
   gameState: GameState
-  isBanking: boolean
+  isVaulting: boolean
   isOnboarding: boolean
-  playersToBank: string[]
-  rollDice: (num: number, double?: boolean) => void
+  playersToVault: number[]
+  rollDice: (value: number | 'double') => void
   rounds: number
-  setIsBanking: (isBanking: boolean) => void
+  setIsVaulting: (isVaulting: boolean) => void
   setIsOnboarding: (isOnboarding: boolean) => void
-  setPlayersToBank: (playersToBank: string[]) => void
+  setPlayersToVault: (playersToVault: number[]) => void
   setRounds: (rounds: number) => void
-  bank: (playersToBank: string[]) => void
+  vault: (playersToVault: number[]) => void
   replay: () => void
+  undoRoll: () => void
 }
 
 export const Footer = (props: FooterProps) => {
-  const dangerRoll = props.gameState.roll_count >= 3
+  const dangerRoll =
+    props.gameState.roll_history.filter(
+      (roll) => roll.round === props.gameState.current_round
+    ).length >= 3
   const globalBankingDisable =
-    props.isBanking || props.gameState.round_over ? 'disabled' : ''
+    props.isVaulting || props.gameState.round_over ? 'disabled' : ''
   const globalRoundOverDisable = props.gameState.round_over ? 'disabled' : ''
+  const nonVaultedPlayers = props.gameState.roll_queue.filter(
+    (p) => !p.is_vaulted
+  )
 
   return (
     <div className="footer">
@@ -61,14 +68,18 @@ export const Footer = (props: FooterProps) => {
         {!props.isOnboarding && !props.gameState.game_over && (
           <>
             {props.gameState.roll_queue[0] &&
-              (props.isBanking ? (
+              (props.isVaulting ? (
                 <p>Select which players to bank</p>
               ) : (
-                <p>{props.gameState.roll_queue[0].name} Roll</p>
+                <p>
+                  {nonVaultedPlayers.length
+                    ? nonVaultedPlayers[0].name + ' Roll'
+                    : ''}
+                </p>
               ))}
             <div className="quarter-row">
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable} ${
                   dangerRoll ? 'disabled' : ''
                 }`}
@@ -77,21 +88,21 @@ export const Footer = (props: FooterProps) => {
                 2
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(3)}
               >
                 3
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(4)}
               >
                 4
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(5)}
               >
@@ -100,20 +111,20 @@ export const Footer = (props: FooterProps) => {
             </div>
             <div className="quarter-row">
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(6)}
               >
                 6
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${
-                  props.isBanking || props.gameState.round_over
+                  props.isVaulting || props.gameState.round_over
                     ? 'disabled'
                     : ''
                 } ${
-                  dangerRoll && !props.isBanking && !props.gameState.round_over
+                  dangerRoll && !props.isVaulting && !props.gameState.round_over
                     ? 'red'
                     : ''
                 }`}
@@ -122,14 +133,14 @@ export const Footer = (props: FooterProps) => {
                 7
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(8)}
               >
                 8
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(9)}
               >
@@ -138,21 +149,21 @@ export const Footer = (props: FooterProps) => {
             </div>
             <div className="quarter-row">
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(10)}
               >
                 10
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable}`}
                 onClick={() => props.rollDice(11)}
               >
                 11
               </button>
               <button
-                disabled={props.isBanking}
+                disabled={props.isVaulting}
                 className={`button ${globalBankingDisable} ${
                   dangerRoll ? 'disabled' : ''
                 }`}
@@ -161,12 +172,19 @@ export const Footer = (props: FooterProps) => {
                 12
               </button>
               <button
-                className={`button ${globalBankingDisable}`}
-                onClick={() =>
-                  alert(
-                    'Feature: Undo Dice Roll\n\nThis feature is in the works and is coming soon. Check back soon.'
-                  )
+                disabled={
+                  props.gameState.roll_history.filter(
+                    (roll) => roll.round === props.gameState.current_round
+                  ).length === 0
                 }
+                className={`button ${globalBankingDisable} ${
+                  props.gameState.roll_history?.filter(
+                    (roll) => roll.round === props.gameState.current_round
+                  ).length === 0
+                    ? 'disabled'
+                    : ''
+                }`}
+                onClick={() => props.undoRoll()}
               >
                 <UndoIcon />
               </button>
@@ -174,34 +192,34 @@ export const Footer = (props: FooterProps) => {
             <div className="half-row">
               <button
                 className={`button ${
-                  props.isBanking
+                  props.isVaulting
                     ? 'red'
                     : props.gameState.round_over
                     ? 'disabled'
                     : 'yellow'
                 } ${globalRoundOverDisable}`}
                 onClick={() =>
-                  props.setIsBanking(props.isBanking ? false : true)
+                  props.setIsVaulting(props.isVaulting ? false : true)
                 }
               >
-                {props.isBanking ? 'Cancel' : 'Vault'}
+                {props.isVaulting ? 'Cancel' : 'Vault'}
               </button>
               <button
-                disabled={!dangerRoll && !props.isBanking}
+                disabled={!dangerRoll && !props.isVaulting}
                 className={`button ${
-                  props.isBanking ? 'green' : !dangerRoll ? 'disabled' : ''
+                  props.isVaulting ? 'green' : !dangerRoll ? 'disabled' : ''
                 } ${globalRoundOverDisable}`}
                 onClick={() => {
-                  if (props.isBanking) {
-                    props.bank(props.playersToBank || [])
-                    props.setPlayersToBank([])
-                    props.setIsBanking(false)
+                  if (props.isVaulting) {
+                    props.vault(props.playersToVault || [])
+                    props.setPlayersToVault([])
+                    props.setIsVaulting(false)
                   } else if (dangerRoll) {
-                    props.rollDice(1, true)
+                    props.rollDice('double')
                   }
                 }}
               >
-                {props.isBanking ? 'Confirm' : 'Double'}
+                {props.isVaulting ? 'Confirm' : 'Double'}
               </button>
             </div>
           </>

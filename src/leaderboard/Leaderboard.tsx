@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import './leaderboard.css'
-import { GameState } from '../hooks/useBank'
+import { GameState } from '../hooks/useBankNew'
 import VaultIcon from '../assets/vault_icon.svg'
 import { Checkbox } from './Checkbox'
 
 interface LeaderboardProps {
   gameState: GameState
-  isBanking: boolean
-  playersToBank: string[]
-  setPlayersToBank: (playersToBank: string[]) => void
+  isVaulting: boolean
+  playersToVault: number[]
+  setPlayersToVault: (playersToVault: number[]) => void
 }
 
 export const Leaderboard = (props: LeaderboardProps) => {
@@ -31,8 +31,8 @@ export const Leaderboard = (props: LeaderboardProps) => {
         overflow: 'auto',
       }}
     >
-      {props.gameState.players
-        .filter((p) => !p.is_banked)
+      {props.gameState.roll_queue
+        .filter((p) => !p.is_vaulted)
         .sort((a, b) => b.score - a.score)
         .map((player) => {
           const isPlayerActive =
@@ -43,20 +43,20 @@ export const Leaderboard = (props: LeaderboardProps) => {
           return (
             <div
               className={`custom-row ${
-                isPlayerActive && !props.isBanking ? 'active' : ''
+                isPlayerActive && !props.isVaulting ? 'active' : ''
               }`}
               key={player.name}
             >
               <p>
-                {props.isBanking && (
+                {props.isVaulting && (
                   <span>
                     <Checkbox
-                      name={player.name}
-                      onSelect={(name, remove) => {
-                        props.setPlayersToBank(
+                      id={player.id}
+                      onSelect={(id, remove) => {
+                        props.setPlayersToVault(
                           remove
-                            ? props.playersToBank.filter((p) => p !== name)
-                            : [...props.playersToBank, name]
+                            ? props.playersToVault.filter((p) => p !== id)
+                            : [...props.playersToVault, id]
                         )
                       }}
                     />
@@ -68,8 +68,8 @@ export const Leaderboard = (props: LeaderboardProps) => {
             </div>
           )
         })}
-      {props.gameState.players
-        .filter((p) => p.is_banked)
+      {props.gameState.roll_queue
+        .filter((p) => p.is_vaulted)
         .sort((a, b) => b.score - a.score)
         .map((player) => {
           return (

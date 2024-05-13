@@ -2,8 +2,8 @@ import { useState } from 'react'
 import './checkbox.css'
 
 export const Checkbox = (props: {
-  name: string
-  onSelect: (name: string, remove: boolean) => void
+  id: number
+  onSelect: (id: number, remove: boolean) => void
 }) => {
   const [checked, setChecked] = useState(false)
 
@@ -11,10 +11,10 @@ export const Checkbox = (props: {
     <span className="checkbox">
       <input
         type="checkbox"
-        id={'checkbox ' + props.name}
+        id={'checkbox ' + props.id}
         checked={checked}
         onChange={() => {
-          props.onSelect(props.name, checked)
+          props.onSelect(props.id, checked)
 
           setChecked(!checked)
         }}

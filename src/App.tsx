@@ -2,19 +2,27 @@ import { useState } from 'react'
 
 import { Footer } from './footer/Footer'
 import { Header } from './header/Header'
-import { useBank } from './hooks/useBank'
+// import { useBank } from './hooks/useBank'
+import { useBank } from './hooks/useBankNew'
 import { Leaderboard } from './leaderboard/Leaderboard'
 import { OnboardingLeaderboard } from './onboarding/Onboarding'
 
 function App() {
   const [isOnboarding, setIsOnboarding] = useState(true)
-  const [isBanking, setIsBanking] = useState(false)
+  const [isVaulting, setIsVaulting] = useState(false)
   const [rounds, setRounds] = useState(10)
-  const [playersToBank, setPlayersToBank] = useState<string[]>([])
-  const { gameState, addPlayer, bank, removePlayer, replay, rollDice } =
-    useBank({
-      rounds,
-    })
+  const [playersToVault, setPlayersToVault] = useState<number[]>([])
+  const {
+    gameState,
+    addPlayer,
+    removePlayer,
+    rollDice,
+    undoRoll,
+    vault,
+    replay,
+  } = useBank({
+    rounds: 10,
+  })
 
   return (
     <>
@@ -31,24 +39,25 @@ function App() {
       ) : (
         <Leaderboard
           gameState={gameState}
-          isBanking={isBanking}
-          playersToBank={playersToBank}
-          setPlayersToBank={setPlayersToBank}
+          isVaulting={isVaulting}
+          playersToVault={playersToVault}
+          setPlayersToVault={setPlayersToVault}
         />
       )}
       <Footer
         gameState={gameState}
-        isBanking={isBanking}
+        isVaulting={isVaulting}
         isOnboarding={isOnboarding}
-        playersToBank={playersToBank}
+        playersToVault={playersToVault}
         rollDice={rollDice}
         rounds={rounds}
-        setIsBanking={setIsBanking}
+        setIsVaulting={setIsVaulting}
         setIsOnboarding={setIsOnboarding}
-        setPlayersToBank={setPlayersToBank}
+        setPlayersToVault={setPlayersToVault}
         setRounds={setRounds}
-        bank={bank}
+        vault={vault}
         replay={replay}
+        undoRoll={undoRoll}
       />
     </>
   )
@@ -58,4 +67,3 @@ export default App
 
 // TODO:
 // - Add rules
-// - Undo dice roll

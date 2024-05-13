@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { GameState } from '../hooks/useBank'
+import { GameState } from '../hooks/useBankNew'
 import { OnboardingHeader } from '../onboarding/Onboarding'
 import './header.css'
+import { getCurrentRoundTotal } from '../hooks/useBankNew'
 
 type HeaderProps = {
   addPlayer: (name: string) => void
@@ -29,7 +30,7 @@ export const Header = (props: HeaderProps) => {
           {!props.gameState.game_over && !props.gameState.round_over && (
             <FormattedNumber
               border={false}
-              value={props.gameState.round_total}
+              value={getCurrentRoundTotal(props.gameState)}
               unit="Points"
             />
           )}
@@ -69,7 +70,11 @@ export const Header = (props: HeaderProps) => {
               >
                 <FormattedNumber
                   border={true}
-                  value={props.gameState.roll_count}
+                  value={
+                    props.gameState.roll_history.filter(
+                      (roll) => roll.round === props.gameState.current_round
+                    ).length
+                  }
                   unit="Roll"
                   reverse={true}
                 />
