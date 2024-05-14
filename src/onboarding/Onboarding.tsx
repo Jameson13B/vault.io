@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './onboarding.css'
-import { GameState } from '../hooks/useBankNew'
+import { GameState } from 'usevault'
 import DeleteIcon from '../assets/delete_icon.svg'
 
 type OnboardingHeaderProps = {
@@ -24,19 +24,19 @@ export const OnboardingFooter = (props: OnboardingFooterProps) => {
       <p>Select number of turns</p>
       <div className="quarter-row">
         <button
-          className={`button ${props.rounds === 10 ? 'active' : ''}`}
+          className={props.rounds === 10 ? 'active button' : 'button'}
           onClick={() => props.setRounds(10)}
         >
           10
         </button>
         <button
-          className={`button ${props.rounds === 15 ? 'active' : ''}`}
+          className={props.rounds === 15 ? 'active button' : 'button'}
           onClick={() => props.setRounds(15)}
         >
           15
         </button>
         <button
-          className={`button ${props.rounds === 20 ? 'active' : ''}`}
+          className={props.rounds === 20 ? 'active button' : 'button'}
           onClick={() => props.setRounds(20)}
         >
           20
@@ -50,6 +50,7 @@ export const OnboardingFooter = (props: OnboardingFooterProps) => {
           Start Game
         </button>
       </div>
+      <div className="glow" />
     </div>
   )
 }
@@ -83,7 +84,9 @@ export const OnboardingLeaderboard = (props: OnboardingLeaderboardProps) => {
   const [footAndHeadHeight, setFootAndHeadHeight] = useState(0)
 
   useEffect(() => {
-    const footerElement = document.querySelector('.footer') as HTMLElement
+    const footerElement =
+      (document.querySelector('.footer') as HTMLElement) ||
+      (document.querySelector('.onboarding-footer') as HTMLElement)
     const headerElement = document.querySelector('.header') as HTMLElement
 
     setFootAndHeadHeight(

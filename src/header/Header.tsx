@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { GameState } from '../hooks/useBankNew'
+import { GameState } from 'usevault'
 import { OnboardingHeader } from '../onboarding/Onboarding'
 import './header.css'
-import { getCurrentRoundTotal } from '../hooks/useBankNew'
+import { getCurrentRoundTotal } from '../hooks/useVault'
 
 type HeaderProps = {
   addPlayer: (name: string) => void
@@ -86,7 +86,7 @@ export const Header = (props: HeaderProps) => {
               style={{ textAlign: 'center', width: '100%' }}
             >
               {
-                props.gameState.players.sort((a, b) => b.score - a.score)[0]
+                props.gameState.roll_queue.sort((a, b) => b.score - a.score)[0]
                   .name
               }{' '}
               Wins

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './leaderboard.css'
-import { GameState } from '../hooks/useBankNew'
+import { GameState } from 'usevault'
 import VaultIcon from '../assets/vault_icon.svg'
 import { Checkbox } from './Checkbox'
 
@@ -21,7 +21,7 @@ export const Leaderboard = (props: LeaderboardProps) => {
     setFootAndHeadHeight(
       footerElement?.offsetHeight + headerElement?.offsetHeight
     )
-  }, [])
+  }, [props.isVaulting])
 
   return (
     <div

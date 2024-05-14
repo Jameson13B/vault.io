@@ -1,0 +1,21 @@
+{
+  "name": "usevault",
+  "version": "0.3.0",
+  "description": "A React hook for creating a Vault score tracker.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vault",
+    "bank",
+    "react",
+    "hook"
+  ],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

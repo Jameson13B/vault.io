@@ -2,10 +2,12 @@ import { useState } from 'react'
 
 import { Footer } from './footer/Footer'
 import { Header } from './header/Header'
-// import { useBank } from './hooks/useBank'
-import { useBank } from './hooks/useBankNew'
+import { useVault } from 'usevault'
 import { Leaderboard } from './leaderboard/Leaderboard'
-import { OnboardingLeaderboard } from './onboarding/Onboarding'
+import {
+  OnboardingLeaderboard,
+  OnboardingFooter,
+} from './onboarding/Onboarding'
 
 function App() {
   const [isOnboarding, setIsOnboarding] = useState(true)
@@ -20,8 +22,8 @@ function App() {
     undoRoll,
     vault,
     replay,
-  } = useBank({
-    rounds: 10,
+  } = useVault({
+    rounds: rounds,
   })
 
   return (
@@ -44,21 +46,28 @@ function App() {
           setPlayersToVault={setPlayersToVault}
         />
       )}
-      <Footer
-        gameState={gameState}
-        isVaulting={isVaulting}
-        isOnboarding={isOnboarding}
-        playersToVault={playersToVault}
-        rollDice={rollDice}
-        rounds={rounds}
-        setIsVaulting={setIsVaulting}
-        setIsOnboarding={setIsOnboarding}
-        setPlayersToVault={setPlayersToVault}
-        setRounds={setRounds}
-        vault={vault}
-        replay={replay}
-        undoRoll={undoRoll}
-      />
+      {isOnboarding ? (
+        <OnboardingFooter
+          rounds={rounds}
+          setIsOnboarding={setIsOnboarding}
+          setRounds={(rounds) => setRounds(rounds)}
+        />
+      ) : (
+        <Footer
+          gameState={gameState}
+          isVaulting={isVaulting}
+          playersToVault={playersToVault}
+          rollDice={rollDice}
+          rounds={rounds}
+          setIsVaulting={setIsVaulting}
+          setIsOnboarding={setIsOnboarding}
+          setPlayersToVault={setPlayersToVault}
+          setRounds={setRounds}
+          vault={vault}
+          replay={replay}
+          undoRoll={undoRoll}
+        />
+      )}
     </>
   )
 }

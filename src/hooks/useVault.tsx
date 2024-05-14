@@ -1,10 +1,10 @@
 import { useCallback, useState, useEffect } from 'react'
 
-interface useBankRequestProps {
+export interface useVaultRequestProps {
   rounds: number
   roundTransitionDelay?: number
 }
-interface useBankReturnProps {
+export interface useVaultReturnProps {
   gameState: GameState
   addPlayer: (name: string) => void
   removePlayer: (name: string) => void
@@ -13,7 +13,7 @@ interface useBankReturnProps {
   vault: (playersToVault: number[]) => void
   replay: () => void
 }
-interface Player {
+export interface Player {
   name: string
   score: number
   is_vaulted: boolean
@@ -34,7 +34,7 @@ export interface GameState {
   roll_history: Roll[]
 }
 
-export const useBank = (props: useBankRequestProps): useBankReturnProps => {
+export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
   const [gameState, setGameState] = useState<GameState>({
     round_over: false, // Used to indicate the current round is over. Resets after 2000ms
     game_over: false, // Used to indicate the game is over.
@@ -179,11 +179,11 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
     }
   }, [gameState])
   /**
-   * Bank a set of players' scores for the current round.
+   * Vaults a set of players' scores for the current round.
    */
   const vault = useCallback(
     (playersToVault: number[]) => {
-      if (playersToVault.length === 0) throw new Error('No players to bank')
+      if (playersToVault.length === 0) throw new Error('No players to vault')
 
       const roll_queue = [...gameState.roll_queue]
 
@@ -195,7 +195,6 @@ export const useBank = (props: useBankRequestProps): useBankReturnProps => {
       })
 
       const allPlayersVaulted = roll_queue.every((player) => player.is_vaulted)
-      console.log('allPlayersVaulted', allPlayersVaulted)
 
       return setGameState((prevState) => ({
         ...prevState,
@@ -243,7 +242,7 @@ export const getCurrentRoundTotal = (gameState: GameState) => {
     .reduce((acc, cur) => (cur.value === 'double' ? acc : acc + cur.value), 0)
 }
 /**
- * Moves the current item in the roll queue to the end recursively if not banked.
+ * Moves the current item in the roll queue to the end recursively if not vaulted.
  */
 const queueForward = (roll_queue: Player[]): Player[] => {
   const rollQueueCopy = [...roll_queue]
@@ -257,7 +256,7 @@ const queueForward = (roll_queue: Player[]): Player[] => {
     : queueForward(rollQueueCopy)
 }
 /**
- * Moves the last item in the roll queue to the front recursively if not banked.
+ * Moves the last item in the roll queue to the front recursively if not vaulted.
  */
 const queueBackward = (roll_queue: Player[]): Player[] => {
   const rollQueueCopy = [...roll_queue]

@@ -64,6 +64,11 @@
   background: var(--yellow);
   border: none;
 }
+.footer .button.black {
+  background-color: var(--dark);
+  color: var(--yellow, #f3ce75);
+  border: none;
+}
 .footer .button:last-of-type {
   margin-right: 0;
 }
