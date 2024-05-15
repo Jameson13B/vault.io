@@ -4,7 +4,8 @@
 
 A React hook for creating a Vault score tracker. Written in Typescript.
 
-Created by [Jameson](https://jamesonb.com) at [Atomic10 Studio](https://atomic10.studio)
+> Created by [Jameson Brown](https://jamesonb.com) @ [Atomic10 Studio](https://atomic10.studio)  
+> Designed by Christopher Brown @ [Barely Fiction Experiences](https://barelyfiction.design)
 
 ## Installation
 
