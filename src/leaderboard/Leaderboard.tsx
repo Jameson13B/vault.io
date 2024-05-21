@@ -36,9 +36,9 @@ export const Leaderboard = (props: LeaderboardProps) => {
         .sort((a, b) => b.score - a.score)
         .map((player) => {
           const isPlayerActive =
-            props.gameState.roll_queue.findIndex(
-              (q) => q.name === player.name
-            ) === 0
+            props.gameState.roll_queue
+              .filter((p) => !p.is_vaulted)
+              .findIndex((q) => q.name === player.name) === 0
 
           return (
             <div

@@ -145,7 +145,7 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
         round_over: isRoundOver(),
         game_over:
           isRoundOver() && prevState.current_round === prevState.total_rounds,
-        roll_queue: queueForward(prevState.roll_queue),
+        roll_queue: queueForward(prevState.roll_queue, true),
         roll_history: [
           {
             id: gameState.roll_history.length,
@@ -202,7 +202,10 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
         game_over:
           allPlayersVaulted &&
           prevState.current_round === prevState.total_rounds,
-        roll_queue: queueForward(roll_queue),
+        roll_queue:
+          allPlayersVaulted || roll_queue[0]?.is_vaulted
+            ? queueForward(roll_queue)
+            : roll_queue,
       }))
     },
     [gameState]
@@ -244,16 +247,28 @@ export const getCurrentRoundTotal = (gameState: GameState) => {
 /**
  * Moves the current item in the roll queue to the end recursively if not vaulted.
  */
-const queueForward = (roll_queue: Player[]): Player[] => {
+const queueForward = (
+  roll_queue: Player[],
+  rolling: boolean = false
+): Player[] => {
   const rollQueueCopy = [...roll_queue]
-  const currentRoll = rollQueueCopy.shift()
   const allPlayersVaulted = roll_queue.every((player) => player.is_vaulted)
 
-  if (currentRoll) rollQueueCopy.push(currentRoll)
+  if (rolling && !rollQueueCopy[0]?.is_vaulted) {
+    const currentRoller = rollQueueCopy.shift()
 
-  return allPlayersVaulted || !currentRoll?.is_vaulted
-    ? rollQueueCopy
-    : queueForward(rollQueueCopy)
+    if (currentRoller) rollQueueCopy.push(currentRoller)
+
+    return rollQueueCopy
+  } else if (allPlayersVaulted || !roll_queue[0]?.is_vaulted) {
+    return rollQueueCopy
+  } else {
+    const currentRoller = rollQueueCopy.shift()
+
+    if (currentRoller) rollQueueCopy.push(currentRoller)
+
+    return queueForward(rollQueueCopy)
+  }
 }
 /**
  * Moves the last item in the roll queue to the front recursively if not vaulted.
