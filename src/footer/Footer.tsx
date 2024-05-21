@@ -52,24 +52,27 @@ export const Footer = (props: FooterProps) => {
           </div>
         )}
         {props.isVaulting && (
-          <div className="half-row">
-            <button
-              className="button black"
-              onClick={() => props.setIsVaulting(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className="button yellow"
-              onClick={() => {
-                props.vault(props.playersToVault || [])
-                props.setPlayersToVault([])
-                props.setIsVaulting(false)
-              }}
-            >
-              Confirm
-            </button>
-          </div>
+          <>
+            <p>Select which players to bank</p>
+            <div className="half-row">
+              <button
+                className="button black"
+                onClick={() => props.setIsVaulting(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="button yellow"
+                onClick={() => {
+                  props.vault(props.playersToVault || [])
+                  props.setPlayersToVault([])
+                  props.setIsVaulting(false)
+                }}
+              >
+                Confirm
+              </button>
+            </div>
+          </>
         )}
         {!props.isVaulting && !props.gameState.game_over && (
           <>
