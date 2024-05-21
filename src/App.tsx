@@ -53,20 +53,22 @@ function App() {
           setRounds={(rounds) => setRounds(rounds)}
         />
       ) : (
-        <Footer
-          gameState={gameState}
-          isVaulting={isVaulting}
-          playersToVault={playersToVault}
-          rollDice={rollDice}
-          rounds={rounds}
-          setIsVaulting={setIsVaulting}
-          setIsOnboarding={setIsOnboarding}
-          setPlayersToVault={setPlayersToVault}
-          setRounds={setRounds}
-          vault={vault}
-          replay={replay}
-          undoRoll={undoRoll}
-        />
+        !gameState.round_over && (
+          <Footer
+            gameState={gameState}
+            isVaulting={isVaulting}
+            playersToVault={playersToVault}
+            rollDice={rollDice}
+            rounds={rounds}
+            setIsVaulting={setIsVaulting}
+            setIsOnboarding={setIsOnboarding}
+            setPlayersToVault={setPlayersToVault}
+            setRounds={setRounds}
+            vault={vault}
+            replay={replay}
+            undoRoll={undoRoll}
+          />
+        )
       )}
     </>
   )
