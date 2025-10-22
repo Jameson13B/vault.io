@@ -1,0 +1,35 @@
+.activePlayersStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+.activePlayersItemStyle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 200px;
+  border: 1px solid #f3ce75;
+  border-radius: 12px;
+  color: var(--liteyellow);
+  font-family: Rajdhani;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 100%;
+}
+.activePlayerName {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 0;
+}
+.activePlayerScore {
+  border-left: 1px solid var(--liteyellow);
+  width: 51px;
+  margin: 0;
+  padding: 16px 0;
+}

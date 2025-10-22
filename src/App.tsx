@@ -1,80 +1,134 @@
-import { useState } from 'react'
+import { useRef, useState } from "react"
+import { useVault } from "./hooks/useVault"
 
-import { Footer } from './footer/Footer'
-import { Header } from './header/Header'
-import { useVault } from 'usevault'
-import { Leaderboard } from './leaderboard/Leaderboard'
-import {
-  OnboardingLeaderboard,
-  OnboardingFooter,
-} from './onboarding/Onboarding'
+import { Onboarding } from "./onboarding/Onboarding"
+import { Game } from "./game/Game"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
+import { RoundOver } from "./transitions/RoundOver"
+import { GameOver } from "./transitions/GameOver"
 
 function App() {
+  const container = useRef(null)
   const [isOnboarding, setIsOnboarding] = useState(true)
   const [isVaulting, setIsVaulting] = useState(false)
-  const [rounds, setRounds] = useState(10)
-  const [playersToVault, setPlayersToVault] = useState<number[]>([])
-  const {
-    gameState,
-    addPlayer,
-    removePlayer,
-    rollDice,
-    undoRoll,
-    vault,
-    replay,
-  } = useVault({
-    rounds: rounds,
-  })
+  const [rounds, setRounds] = useState(15)
+  const { gameState, handle } = useVault({ rounds })
+
+  useGSAP(
+    // Animate Step Header and Content in
+    () => {
+      gsap.fromTo(
+        "#step-header",
+        { autoAlpha: 0, transform: "translateY(-100%)" },
+        {
+          autoAlpha: 1,
+          transform: "translateY(0)",
+          duration: 0.5,
+          ease: "power2.out",
+        }
+      )
+      gsap.fromTo(
+        "#step-content",
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: 0.5, ease: "power2.out" }
+      )
+    },
+    {
+      dependencies: [gameState.round_over, gameState.game_over, isOnboarding],
+      scope: container,
+    }
+  )
+  useGSAP(
+    // Animate Step Footer in
+    () => {
+      gsap.fromTo(
+        "#step-footer",
+        { autoAlpha: 0, transform: "translateY(100%)" },
+        {
+          autoAlpha: 1,
+          transform: "translateY(0)",
+          duration: 0.5,
+          ease: "power2.out",
+        }
+      )
+    },
+    {
+      dependencies: [
+        gameState.round_over,
+        gameState.game_over,
+        isOnboarding,
+        isVaulting,
+      ],
+      scope: container,
+    }
+  )
+
+  const changeStep = (
+    onComplete: () => void,
+    dependencies = ["H", "C", "F"]
+  ) => {
+    // Animate current step sections out
+    if (dependencies.includes("H"))
+      gsap.to("#step-header", {
+        autoAlpha: 0,
+        transform: "translateY(-100%)",
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: onComplete,
+      })
+    if (dependencies.includes("C"))
+      gsap.to("#step-content", {
+        autoAlpha: 0,
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: onComplete,
+      })
+    if (dependencies.includes("F"))
+      gsap.to("#step-footer", {
+        autoAlpha: 0,
+        transform: "translateY(100%)",
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: onComplete,
+      })
+  }
 
   return (
-    <>
-      <Header
-        addPlayer={addPlayer}
-        gameState={gameState}
-        isOnboarding={isOnboarding}
-      />
-      {isOnboarding ? (
-        <OnboardingLeaderboard
-          gameState={gameState}
-          removePlayer={removePlayer}
-        />
-      ) : (
-        <Leaderboard
-          gameState={gameState}
-          isVaulting={isVaulting}
-          playersToVault={playersToVault}
-          setPlayersToVault={setPlayersToVault}
-        />
+    <div ref={container} style={{ height: "100%" }}>
+      {gameState.game_over && <GameOver gameState={gameState} />}
+      {gameState.round_over && (
+        <RoundOver gameState={gameState} rounds={rounds} />
       )}
-      {isOnboarding ? (
-        <OnboardingFooter
+      {isOnboarding && (
+        <Onboarding
+          players={gameState.players}
+          addPlayer={handle.addPlayer}
+          removePlayer={handle.removePlayer}
           rounds={rounds}
-          setIsOnboarding={setIsOnboarding}
-          setRounds={(rounds) => setRounds(rounds)}
+          setRounds={setRounds}
+          startGame={() => changeStep(() => setIsOnboarding(false))}
         />
-      ) : (
-        !gameState.round_over && (
-          <Footer
-            gameState={gameState}
-            isVaulting={isVaulting}
-            playersToVault={playersToVault}
-            rollDice={rollDice}
-            rounds={rounds}
-            setIsVaulting={setIsVaulting}
-            setIsOnboarding={setIsOnboarding}
-            setPlayersToVault={setPlayersToVault}
-            setRounds={setRounds}
-            vault={vault}
-            replay={replay}
-            undoRoll={undoRoll}
-          />
-        )
       )}
-    </>
+      {!isOnboarding && (
+        <Game
+          currentRolls={gameState.roll_history.filter(
+            (roll) => roll.round === gameState.current_round
+          )}
+          gameState={gameState}
+          handle={handle}
+          isVaulting={isVaulting}
+          rounds={rounds}
+          setIsVaulting={() =>
+            changeStep(() => setIsVaulting(!isVaulting), ["F"])
+          }
+        />
+      )}
+    </div>
   )
 }
 
 export default App
 
 // TODO:
-// - Add rules
+// Add rules

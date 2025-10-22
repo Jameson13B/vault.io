@@ -1,82 +1,70 @@
-import { useCallback, useState, useEffect } from 'react'
+import { useCallback, useState, useEffect } from "react"
 
-export interface useVaultRequestProps {
-  rounds: number
-  roundTransitionDelay?: number
+const initialGameState: GameState = {
+  round_over: false,
+  game_over: false,
+  current_round: 1,
+  players: [
+    {
+      name: "Jameson",
+      score: 0,
+      is_vaulted: false,
+      id: 0,
+    },
+    {
+      name: "Chris",
+      score: 0,
+      is_vaulted: false,
+      id: 1,
+    },
+    {
+      name: "Nate",
+      score: 0,
+      is_vaulted: false,
+      id: 2,
+    },
+    {
+      name: "Nisha",
+      score: 0,
+      is_vaulted: true,
+      id: 3,
+    },
+  ],
+  roll_history: [],
 }
-export interface useVaultReturnProps {
-  gameState: GameState
-  addPlayer: (name: string) => void
-  removePlayer: (name: string) => void
-  rollDice: (roll: number | 'double') => void
-  undoRoll: () => void
-  vault: (playersToVault: number[]) => void
-  replay: () => void
-}
-export interface Player {
-  name: string
-  score: number
-  is_vaulted: boolean
-  id: number
-}
-interface Roll {
-  id: number
-  value: number | 'double'
-  round: number
-}
-export interface GameState {
-  round_over: boolean
-  game_over: boolean
-  current_round: number
-  total_rounds: number
-  players: Player[]
-  roll_queue: Player[]
-  roll_history: Roll[]
-}
+const doubleRoll = "DOUBLE"
 
-export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
-  const [gameState, setGameState] = useState<GameState>({
-    round_over: false, // Used to indicate the current round is over. Resets after 2000ms
-    game_over: false, // Used to indicate the game is over.
-    current_round: 1, // Used to keep track of the current round.
-    total_rounds: 10, // Used to keep track of the total number of rounds. Defaults to 10
-    players: [], // Used to keep track of the players in the game.
-    roll_queue: [], // Used to keep track of the players who are in the roll queue.
-    roll_history: [], // Used to keep track of the roll history.
-  })
+export const useVault = (props: useVaultRequestProps) => {
+  const [gameState, setGameState] = useState<GameState>(initialGameState)
 
-  // Sets the total number of rounds. Defaults to 10, is set by hook props.rounds.
-  useEffect(() => {
-    setGameState((prevState) => ({ ...prevState, total_rounds: props.rounds }))
-  }, [props.rounds])
-
-  // Reset game state for new round after props.roundTransitionDelay or 2000ms
+  // Reset game state for new round after 2000ms
   useEffect(() => {
     if (gameState.round_over) {
-      const timer = setTimeout(() => {
+      let players = [...gameState.players]
+      const firstPlayer = players.shift()
+
+      if (firstPlayer) players.push(firstPlayer)
+
+      players = clearAllVaults(players)
+
+      setTimeout(() => {
         setGameState((prevState) => ({
           ...prevState,
           round_over: false,
           current_round: prevState.current_round + 1,
-          roll_queue: prevState.roll_queue.map((player) => ({
-            ...player,
-            is_vaulted: false,
-          })),
         }))
-      }, props.roundTransitionDelay || 2000)
-
-      return () => clearTimeout(timer)
+      }, 2000)
     }
-  }, [gameState.round_over, props.roundTransitionDelay])
+  }, [gameState.round_over])
 
   /**
-   * Adds a new player to the game state.
+   * Adds a new player to the game.
    */
   const addPlayer = useCallback(
     (name: string) => {
-      if (!name) throw new Error('Name is required')
+      if (!name) throw new Error("Name is required")
       if (gameState.players.filter((player) => player.name === name).length)
-        throw new Error('Name exists')
+        throw new Error("Player already exists")
 
       const newPlayer: Player = {
         name,
@@ -85,72 +73,76 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
         id: gameState.players.length,
       }
 
-      return setGameState({
-        ...gameState,
-        players: [...gameState.players, newPlayer],
-        roll_queue: [...gameState.roll_queue, newPlayer],
-      })
+      return setGameState((prevState) => ({
+        ...prevState,
+        players: [...prevState.players, newPlayer],
+      }))
     },
     [gameState]
   )
+
   /**
-   * Removes a player from the game state.
+   * Removes a player from the game.
    */
   const removePlayer = useCallback(
     (name: string) => {
-      if (!name) throw new Error('Name is required')
+      if (!name) throw new Error("Name is required")
       if (!gameState.players.filter((player) => player.name === name).length)
-        throw new Error('Name does not exist')
-
-      return setGameState({
-        ...gameState,
-        players: gameState.players.filter((player) => player.name !== name),
-        roll_queue: gameState.roll_queue.filter(
-          (player) => player.name !== name
-        ),
-      })
-    },
-    [gameState]
-  )
-  /**
-   * Records a dice roll in the game state.
-   */
-  const rollDice = useCallback(
-    (value: number | 'double') => {
-      if (!value) throw new Error('Roll is required')
-
-      const rollValue = (roll: number | 'double') => {
-        if (roll === 7) {
-          return gameState.roll_history.filter(
-            (roll) => roll.round === gameState.current_round
-          ).length >= 3
-            ? 0
-            : 70
-        } else if (roll === 'double') {
-          return getCurrentRoundTotal(gameState)
-        } else {
-          return roll
-        }
-      }
-      const isRoundOver = () =>
-        value === 7 &&
-        gameState.roll_history.filter(
-          (roll) => roll.round === gameState.current_round
-        ).length >= 3
-          ? true
-          : gameState.round_over
+        throw new Error("Player does not exist")
 
       return setGameState((prevState) => ({
         ...prevState,
-        round_over: isRoundOver(),
-        game_over:
-          isRoundOver() && prevState.current_round === prevState.total_rounds,
-        roll_queue: queueForward(prevState.roll_queue, true),
+        players: prevState.players.filter((player) => player.name !== name),
+      }))
+    },
+    [gameState]
+  )
+
+  /**
+   * Rolls the dice.
+   */
+  const rollDice = useCallback(
+    (value: number | typeof doubleRoll) => {
+      if (!value) throw new Error("Value is required")
+      let rollValue
+      let isRoundOver = false
+      let isGameOver = false
+
+      if (value === 7) {
+        if (isDangerRoll(gameState)) {
+          isGameOver = gameState.current_round === props.rounds
+          isRoundOver = true
+          rollValue = 0
+        } else {
+          rollValue = 70
+        }
+      } else if (value === doubleRoll) {
+        rollValue = getCurrentRoundTotal(gameState)
+      } else {
+        rollValue = value
+      }
+
+      return setGameState((prevState) => ({
+        ...prevState,
+        round_over: isRoundOver,
+        game_over: isGameOver,
+        players: queueForward(
+          isRoundOver
+            ? prevState.players.map((player) => ({
+                ...player,
+                score:
+                  isGameOver && !player.is_vaulted
+                    ? getRiskItScore(player)
+                    : player.score,
+                is_vaulted: false,
+              }))
+            : gameState.players
+        ),
         roll_history: [
           {
-            id: gameState.roll_history.length,
-            value: rollValue(value),
-            round: gameState.current_round,
+            id: prevState.roll_history.length,
+            value: rollValue,
+            round: prevState.current_round,
           },
           ...prevState.roll_history,
         ],
@@ -158,81 +150,95 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
     },
     [gameState]
   )
+  const getRiskItScore = (player: Player) => {
+    return (
+      gameState.roll_history
+        .filter((roll) => roll.round === gameState.current_round)
+        .reduce((acc, cur) => acc + Number(cur.value), 0) - player.score
+    )
+  }
+
   /**
-   * Undoes the most recent roll.
+   * Undoes the most recent roll. Cannot undo a roll that ended the round.
    */
   const undoRoll = useCallback(() => {
-    if (gameState.roll_history.length > 0) {
-      const roll_history = [...gameState.roll_history]
+    const roll_history = [...gameState.roll_history]
+    const lastRoll = roll_history.shift()
 
-      const lastRoll = roll_history.shift()
-
+    if (gameState.roll_history.length > 0 && lastRoll?.value !== 0) {
       return setGameState((prevState) => ({
         ...prevState,
-        current_round:
-          lastRoll?.value === 0
-            ? prevState.current_round - 1
-            : prevState.current_round,
-        roll_queue: queueBackward(prevState.roll_queue),
         roll_history,
+        players: queueBackward(prevState.players),
       }))
     }
   }, [gameState])
+
   /**
    * Vaults a set of players' scores for the current round.
    */
   const vault = useCallback(
     (playersToVault: number[]) => {
-      if (playersToVault.length === 0) throw new Error('No players to vault')
+      if (playersToVault.length === 0) throw new Error("No players to vault")
 
-      const roll_queue = [...gameState.roll_queue]
+      let players = [...gameState.players]
 
-      roll_queue.forEach((player) => {
+      players.forEach((player) => {
         if (playersToVault.includes(player.id)) {
           player.is_vaulted = true
-          player.score += getCurrentRoundTotal(gameState)
+          player.score = player.score + getCurrentRoundTotal(gameState)
         }
       })
 
-      const allPlayersVaulted = roll_queue.every((player) => player.is_vaulted)
+      const allPlayersVaulted = players.every((player) => player.is_vaulted)
 
       return setGameState((prevState) => ({
         ...prevState,
+        players:
+          allPlayersVaulted || players[0]?.is_vaulted
+            ? queueForward(
+                allPlayersVaulted
+                  ? players.map((player) => ({
+                      ...player,
+                      is_vaulted: false,
+                    }))
+                  : players
+              )
+            : players,
         round_over: allPlayersVaulted,
         game_over:
-          allPlayersVaulted &&
-          prevState.current_round === prevState.total_rounds,
-        roll_queue:
-          allPlayersVaulted || roll_queue[0]?.is_vaulted
-            ? queueForward(roll_queue)
-            : roll_queue,
+          allPlayersVaulted && prevState.current_round === props.rounds,
       }))
     },
     [gameState]
   )
+
   /**
    * Resets game state to the start of the game.
    */
-  const replay = useCallback(() => {
+  const replayGame = useCallback(() => {
     return setGameState((prevState) => ({
-      ...prevState,
-      round_over: false,
-      game_over: false,
-      current_round: 1,
-      total_rounds: props.rounds,
-      roll_queue: [...prevState.players],
-      roll_history: [],
+      ...initialGameState,
+      players: prevState.players
+        .map((player) => ({
+          ...player,
+          score: 0,
+          is_vaulted: false,
+        }))
+        .sort((a, b) => a.id - b.id),
     }))
-  }, [props.rounds])
+  }, [gameState])
 
   return {
     gameState,
-    addPlayer,
-    removePlayer,
-    rollDice,
-    vault,
-    undoRoll,
-    replay,
+    handle: {
+      addPlayer,
+      removePlayer,
+      rollDice,
+      undoRoll,
+      vault,
+      replayGame,
+    },
   }
 }
 
@@ -242,45 +248,30 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
 export const getCurrentRoundTotal = (gameState: GameState) => {
   return gameState.roll_history
     .filter((roll) => roll.round === gameState.current_round)
-    .reduce((acc, cur) => (cur.value === 'double' ? acc : acc + cur.value), 0)
+    .reduce((acc, cur) => (cur.value === "double" ? acc : acc + cur.value), 0)
 }
-/**
- * Moves the current item in the roll queue to the end recursively if not vaulted.
- */
-const queueForward = (
-  roll_queue: Player[],
-  rolling: boolean = false
-): Player[] => {
-  const rollQueueCopy = [...roll_queue]
-  const allPlayersVaulted = roll_queue.every((player) => player.is_vaulted)
-
-  if (rolling && !rollQueueCopy[0]?.is_vaulted) {
-    const currentRoller = rollQueueCopy.shift()
-
-    if (currentRoller) rollQueueCopy.push(currentRoller)
-
-    return rollQueueCopy
-  } else if (allPlayersVaulted || !roll_queue[0]?.is_vaulted) {
-    return rollQueueCopy
-  } else {
-    const currentRoller = rollQueueCopy.shift()
-
-    if (currentRoller) rollQueueCopy.push(currentRoller)
-
-    return queueForward(rollQueueCopy)
-  }
+const isDangerRoll = (gameState: GameState) => {
+  return (
+    gameState.roll_history.filter(
+      (roll) => roll.round === gameState.current_round
+    ).length >= 3
+  )
 }
-/**
- * Moves the last item in the roll queue to the front recursively if not vaulted.
- */
-const queueBackward = (roll_queue: Player[]): Player[] => {
-  const rollQueueCopy = [...roll_queue]
-  const lastRoll = rollQueueCopy.pop()
-  const allPlayersVaulted = roll_queue.every((player) => player.is_vaulted)
+const queueForward = (players: Player[]): Player[] => {
+  const playersCopy = [...players]
+  const firstPlayer = playersCopy.shift()
 
-  if (lastRoll) rollQueueCopy.unshift(lastRoll)
+  if (firstPlayer) playersCopy.push(firstPlayer)
 
-  return allPlayersVaulted || !lastRoll?.is_vaulted
-    ? rollQueueCopy
-    : queueBackward(rollQueueCopy)
+  return playersCopy[0]?.is_vaulted ? queueForward(playersCopy) : playersCopy
 }
+const queueBackward = (players: Player[]): Player[] => {
+  const playersCopy = [...players]
+  const lastPlayer = playersCopy.pop()
+
+  if (lastPlayer) playersCopy.unshift(lastPlayer)
+
+  return playersCopy[0]?.is_vaulted ? queueBackward(playersCopy) : playersCopy
+}
+const clearAllVaults = (players: Player[]) =>
+  players.map((player) => ({ ...player, is_vaulted: false }))

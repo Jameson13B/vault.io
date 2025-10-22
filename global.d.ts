@@ -19,6 +19,11 @@ interface Player {
   is_vaulted: boolean
   id: number
 }
+interface Roll {
+  id: number
+  value: number | "double"
+  round: number
+}
 interface GameState {
   round_over: boolean
   game_over: boolean
@@ -27,6 +32,18 @@ interface GameState {
   roll_history: Roll[]
 }
 
-export { useVault } from "./useVault.tsx"
-
-export type { useVaultRequestProps, useVaultReturnProps, Player, GameState }
+interface GameProps {
+  currentRolls: Roll[]
+  gameState: GameState
+  handle: {
+    addPlayer: (name: string) => void
+    removePlayer: (name: string) => void
+    rollDice: (roll: number | "DOUBLE") => void
+    undoRoll: () => void
+    vault: (playersToVault: number[]) => void
+    replayGame: () => void
+  }
+  isVaulting: boolean
+  rounds: number
+  setIsVaulting: (isVaulting: boolean) => void
+}

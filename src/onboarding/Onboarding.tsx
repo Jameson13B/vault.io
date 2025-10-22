@@ -1,118 +1,90 @@
-import { useEffect, useState } from 'react'
-import './onboarding.css'
-import { GameState } from 'usevault'
-import DeleteIcon from '../assets/delete_icon.svg'
+import { Input, Layout } from "antd"
+import {
+  layoutStyle,
+  headerStyle,
+  contentStyle,
+  footerStyle,
+} from "../styles/global.css.ts"
+import styles from "./onboarding.css.ts"
+import { useState } from "react"
 
-type OnboardingHeaderProps = {
+const { Header, Content, Footer } = Layout
+
+type OnboardingProps = {
   addPlayer: (name: string) => void
-  name: string
-  setName: (name: string) => void
-}
-type OnboardingFooterProps = {
+  players: Player[]
+  removePlayer: (id: string) => void
   rounds: number
-  setIsOnboarding: (isOnboarding: boolean) => void
   setRounds: (rounds: number) => void
-}
-type OnboardingLeaderboardProps = {
-  gameState: GameState
-  removePlayer: (name: string) => void
+  startGame: () => void
 }
 
-export const OnboardingFooter = (props: OnboardingFooterProps) => {
-  return (
-    <div className="onboarding-footer">
-      <p>Select number of turns</p>
-      <div className="quarter-row">
-        <button
-          className={props.rounds === 10 ? 'active button' : 'button'}
-          onClick={() => props.setRounds(10)}
-        >
-          10
-        </button>
-        <button
-          className={props.rounds === 15 ? 'active button' : 'button'}
-          onClick={() => props.setRounds(15)}
-        >
-          15
-        </button>
-        <button
-          className={props.rounds === 20 ? 'active button' : 'button'}
-          onClick={() => props.setRounds(20)}
-        >
-          20
-        </button>
-      </div>
-      <div className="half-row">
-        <button
-          className="button bgyellow"
-          onClick={() => props.setIsOnboarding(false)}
-        >
-          Start Game
-        </button>
-      </div>
-      <div className="glow" />
-    </div>
-  )
-}
-
-export const OnboardingHeader = (props: OnboardingHeaderProps) => {
-  return (
-    <div className="container">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          props.addPlayer(props.name)
-          props.setName('')
-        }}
-        className="onboarding-header"
-      >
-        <h1 className="onboarding-title">Add Players</h1>
-        <input
-          onChange={(e) => props.setName(e.target.value)}
-          placeholder="Player Name"
-          value={props.name}
-        />
-        <button className="button" type="submit">
-          Add
-        </button>
-      </form>
-    </div>
-  )
-}
-
-export const OnboardingLeaderboard = (props: OnboardingLeaderboardProps) => {
-  const [footAndHeadHeight, setFootAndHeadHeight] = useState(0)
-
-  useEffect(() => {
-    const footerElement =
-      (document.querySelector('.footer') as HTMLElement) ||
-      (document.querySelector('.onboarding-footer') as HTMLElement)
-    const headerElement = document.querySelector('.header') as HTMLElement
-
-    setFootAndHeadHeight(
-      footerElement?.offsetHeight + headerElement?.offsetHeight
-    )
-  }, [])
+export const Onboarding = ({
+  addPlayer,
+  players,
+  removePlayer,
+  rounds,
+  setRounds,
+  startGame,
+}: OnboardingProps) => {
+  const [name, setName] = useState("")
 
   return (
-    <div
-      className="onboarding-leaderboard"
-      style={{
-        maxHeight: window.innerHeight - footAndHeadHeight,
-        overflow: 'auto',
-      }}
-    >
-      {props.gameState.players.map((player) => (
-        <div className="custom-row" key={player.name}>
-          <p>{player.name}</p>
+    <Layout className={layoutStyle}>
+      {/* Header */}
+      <Header className={headerStyle} id="step-header">
+        <h1 className={styles.headerTitleStyle}>VAULT</h1>
+      </Header>
+      {/* Main */}
+      <Content className={contentStyle} id="step-content">
+        {/* Map through players and display them */}
+        <div className={styles.onboardingContentStyle}>
+          {players.map((player) => (
+            <div className={styles.playerCardStyle} key={player.id}>
+              <p className={styles.playerNameStyle}>{player.name}</p>
+              <button
+                className={styles.removeButtonStyle}
+                onClick={() => removePlayer(player.name)}
+              >
+                X
+              </button>
+            </div>
+          ))}
+        </div>
+      </Content>
+      {/* Footer */}
+      <Footer className={footerStyle} id="step-footer">
+        <h2 className={styles.footerTitleStyle}>Select number of turns</h2>
+        <div className={styles.footerButtonContainerStyle}>
           <button
-            className="delete-button"
-            onClick={() => props.removePlayer(player.name)}
+            className={
+              styles.footerButtonStyle + (rounds === 10 ? " active" : "")
+            }
+            onClick={() => setRounds(10)}
           >
-            <DeleteIcon />
+            10
+          </button>
+          <button
+            className={
+              styles.footerButtonStyle + (rounds === 15 ? " active" : "")
+            }
+            onClick={() => setRounds(15)}
+          >
+            15
+          </button>
+          <button
+            className={
+              styles.footerButtonStyle + (rounds === 20 ? " active" : "")
+            }
+            onClick={() => setRounds(20)}
+          >
+            20
           </button>
         </div>
-      ))}
-    </div>
+        <button className={styles.footerStartButtonStyle} onClick={startGame}>
+          Start Game
+        </button>
+      </Footer>
+    </Layout>
   )
 }

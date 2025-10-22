@@ -1,6 +1,6 @@
 {
   "name": "usevault",
-  "version": "0.3.3",
+  "version": "1.0.0",
   "description": "A React hook for creating a Vault score tracker.",
   "main": "index.ts",
   "scripts": {
