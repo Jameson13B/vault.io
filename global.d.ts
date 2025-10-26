@@ -46,4 +46,5 @@ interface GameProps {
   isVaulting: boolean
   rounds: number
   setIsVaulting: (isVaulting: boolean) => void
+  setShowRules: (show: boolean) => void
 }

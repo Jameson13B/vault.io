@@ -18,6 +18,7 @@ export const Game = ({
   isVaulting,
   rounds,
   setIsVaulting,
+  setShowRules,
 }: GameProps) => {
   const currentRoundRolls = useMemo(() => {
     return gameState.roll_history.filter(
@@ -41,7 +42,12 @@ export const Game = ({
               {gameState.current_round}/{rounds}
             </p>
           </div>
-          <button className={styles.headerRulesButtonStyle}>Rules</button>
+          <button
+            className={styles.headerRulesButtonStyle}
+            onClick={() => setShowRules(true)}
+          >
+            Rules
+          </button>
         </div>
         <div>
           <h1 className={styles.headerScoreStyle}>

@@ -1,0 +1,11 @@
+.headerRulesButtonStyle {
+  background: transparent;
+  borderradius: 12;
+  border: 1px solid var(--darkyellow);
+  color: var(--darkyellow);
+  fontsize: 16;
+  fontweight: 700;
+  width: 84;
+  height: 35;
+  padding: 4px 12px;
+}

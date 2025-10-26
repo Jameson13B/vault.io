@@ -3,6 +3,7 @@ import { useVault } from "./hooks/useVault"
 
 import { Onboarding } from "./onboarding/Onboarding"
 import { Game } from "./game/Game"
+import { Rules } from "./rules/Rules"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { RoundOver } from "./transitions/RoundOver"
@@ -12,6 +13,7 @@ function App() {
   const container = useRef(null)
   const [isOnboarding, setIsOnboarding] = useState(true)
   const [isVaulting, setIsVaulting] = useState(false)
+  const [showRules, setShowRules] = useState(false)
   const [rounds, setRounds] = useState(15)
   const { gameState, handle } = useVault({ rounds })
 
@@ -94,6 +96,8 @@ function App() {
       })
   }
 
+  if (showRules) return <Rules setShowRules={setShowRules} />
+
   return (
     <div ref={container} style={{ height: "100%" }}>
       {gameState.game_over && <GameOver gameState={gameState} />}
@@ -122,6 +126,7 @@ function App() {
           setIsVaulting={() =>
             changeStep(() => setIsVaulting(!isVaulting), ["F"])
           }
+          setShowRules={setShowRules}
         />
       )}
     </div>
