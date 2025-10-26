@@ -103,9 +103,7 @@ export const Game = ({
           display: "flex",
           borderBottom: "none",
           flexDirection: "column",
-          borderTop: `2px solid ${
-            !isVaulting ? vars.color.yellow : "transparent"
-          }`,
+          borderTop: `2px solid ${vars.color.yellow}`,
         }}
       >
         {!isVaulting ? (
@@ -226,12 +224,32 @@ export const Game = ({
               >
                 {/* Two buttons */}
                 <LargeKeypadButton
-                  label="Vault"
+                  label={
+                    <div>
+                      <p className={styles.footerVaultButtonLabelStyle}>
+                        Vault
+                      </p>
+                      <img
+                        src="/src/assets/vault_icon.svg"
+                        alt="Vault"
+                        className={styles.footerVaultButtonIconStyle}
+                      />
+                    </div>
+                  }
                   onClick={() => setIsVaulting(true)}
                 />
                 <LargeKeypadButton
                   disabled={currentRoundRolls.length < 3}
-                  label="Double"
+                  label={
+                    <div>
+                      <p className={styles.footerVaultButtonLabelStyle}>
+                        Double
+                      </p>
+                      <p className={styles.footerVaultButtonDoubleLabelStyle}>
+                        x2
+                      </p>
+                    </div>
+                  }
                   onClick={() => handle.rollDice("DOUBLE")}
                 />
               </div>
@@ -303,7 +321,9 @@ const KeypadButton = ({
 const LargeKeypadButton = ({
   label,
   ...props
-}: { label: string } & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+}: {
+  label: string | React.ReactNode
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       style={{

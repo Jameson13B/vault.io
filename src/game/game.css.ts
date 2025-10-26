@@ -69,7 +69,8 @@ export const contentVaultedPlayersStyle = style({
   flexDirection: "column",
   alignItems: "center",
   alignSelf: "stretch",
-  margin: "19px 0px",
+  margin: "12px 0px",
+  minWidth: 90,
 })
 export const contentVaultedPlayersLabelStyle = style({
   color: vars.color.dark,
@@ -144,15 +145,15 @@ export const contentActivePlayersStyle = style({
 //   textAlign: "left",
 // })
 // export const playerCardStyle = style({
-  // display: "flex",
-  // flexDirection: "row",
-  // justifyContent: "space-between",
-  // alignItems: "center",
-  // borderRadius: 12,
-  // border: `1px solid ${vars.color.liteyellow}`,
-  // background: vars.color.dark,
-  // width: "calc(50% - 16px)",
-  // maxHeight: 55,
+// display: "flex",
+// flexDirection: "row",
+// justifyContent: "space-between",
+// alignItems: "center",
+// borderRadius: 12,
+// border: `1px solid ${vars.color.liteyellow}`,
+// background: vars.color.dark,
+// width: "calc(50% - 16px)",
+// maxHeight: 55,
 // })
 // export const playerNameStyle = style({
 //   color: vars.color.liteyellow,
@@ -163,9 +164,9 @@ export const contentActivePlayersStyle = style({
 //   padding: "16px 0 16px 16px",
 // })
 // export const playerScoreStyle = style({
-  // color: vars.color.liteyellow,
-  // fontFamily: "Rajdhani",
-  // fontSize: 20,
+// color: vars.color.liteyellow,
+// fontFamily: "Rajdhani",
+// fontSize: 20,
 //   lineHeight: "normal",
 //   padding: "14px 15px",
 //   boxSizing: "border-box",
@@ -212,12 +213,12 @@ export const footerVaultContainerStyle = style({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  marginBottom: 16,
 })
 export const footerVaultLabelStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
+  fontFamily: "Rajdhani",
   fontSize: 24,
-  margin: "16px 0",
+  margin: "0 0 16px 0",
 })
 export const footerVaultButtonContainerStyle = style({
   display: "flex",
@@ -228,15 +229,40 @@ export const footerVaultButtonContainerStyle = style({
 })
 export const footerVaultButtonStyle = style({
   padding: "12px 16px",
-  width: "calc(50% - 8px)",
+  width: "135px",
 })
 export const footerVaultButtonCancelStyle = style({
   background: vars.color.dark,
-  color: vars.color.darkyellow,
-  border: `1px solid ${vars.color.darkyellow}`,
+  color: vars.color.yellow,
+  border: `1px solid ${vars.color.yellow}`,
+  fontWeight: 700,
+  fontSize: 16,
+  fontFamily: "Rajdhani",
 })
 export const footerVaultButtonConfirmStyle = style({
-  background: vars.color.darkyellow,
+  background: vars.color.yellow,
   color: vars.color.dark,
-  border: `1px solid ${vars.color.darkyellow}`,
+  fontWeight: 700,
+  fontSize: 16,
+  fontFamily: "Rajdhani",
+  border: `1px solid ${vars.color.yellow}`,
+})
+export const footerVaultButtonLabelStyle = style({
+  margin: 0,
+  fontSize: 16,
+  fontWeight: 700,
+  lineHeight: "100%",
+  fontFamily: "Rajdhani",
+})
+export const footerVaultButtonIconStyle = style({
+  width: 28,
+  height: 28,
+  marginTop: 4,
+})
+export const footerVaultButtonDoubleLabelStyle = style({
+  fontFamily: "Changa",
+  fontWeight: 200,
+  fontSize: 24,
+  lineHeight: "70%",
+  margin: "10px 0 0 0",
 })

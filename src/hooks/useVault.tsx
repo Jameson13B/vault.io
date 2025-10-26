@@ -4,32 +4,7 @@ const initialGameState: GameState = {
   round_over: false,
   game_over: false,
   current_round: 1,
-  players: [
-    {
-      name: "Jameson",
-      score: 0,
-      is_vaulted: false,
-      id: 0,
-    },
-    {
-      name: "Chris",
-      score: 0,
-      is_vaulted: false,
-      id: 1,
-    },
-    {
-      name: "Nate",
-      score: 0,
-      is_vaulted: false,
-      id: 2,
-    },
-    {
-      name: "Nisha",
-      score: 0,
-      is_vaulted: true,
-      id: 3,
-    },
-  ],
+  players: [],
   roll_history: [],
 }
 const doubleRoll = "DOUBLE"

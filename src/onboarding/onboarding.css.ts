@@ -19,6 +19,7 @@ export const formStyle = style({
   display: "flex",
   flexDirection: "row",
   gap: 10,
+  marginBottom: 32,
 })
 export const inputStyle = style({
   background: vars.color.dark,
@@ -45,6 +46,9 @@ export const headerButtonStyle = style({
   background: vars.color.darkyellow,
   border: "0.5px solid #cca209",
   color: vars.color.dark,
+  fontFamily: "Rajdhani",
+  fontSize: 20,
+  fontWeight: 700,
   height: 55,
   padding: "15px 25px",
   outline: "none",

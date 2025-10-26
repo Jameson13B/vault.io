@@ -1,4 +1,4 @@
-import { Input, Layout } from "antd"
+import { Input, Layout, message } from "antd"
 import {
   layoutStyle,
   headerStyle,
@@ -36,7 +36,16 @@ export const Onboarding = ({
         <h1 className={styles.headerTitleStyle}>VAULT</h1>
       </Header>
       {/* Main */}
-      <Content className={contentStyle} id="step-content">
+      <Content
+        className={contentStyle}
+        id="step-content"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "0 19px",
+        }}
+      >
         {/* Map through players and display them */}
         <div className={styles.onboardingContentStyle}>
           {players.map((player) => (
@@ -51,6 +60,24 @@ export const Onboarding = ({
             </div>
           ))}
         </div>
+        <form
+          className={styles.formStyle}
+          onSubmit={(e) => {
+            e.preventDefault()
+            addPlayer(name)
+            setName("")
+          }}
+        >
+          <Input
+            className={styles.inputStyle}
+            placeholder="Enter player name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button className={styles.headerButtonStyle} type="submit">
+            Add
+          </button>
+        </form>
       </Content>
       {/* Footer */}
       <Footer className={footerStyle} id="step-footer">
@@ -81,7 +108,14 @@ export const Onboarding = ({
             20
           </button>
         </div>
-        <button className={styles.footerStartButtonStyle} onClick={startGame}>
+        <button
+          className={styles.footerStartButtonStyle}
+          onClick={() =>
+            players.length < 2
+              ? message.error("Please add at least 2 players")
+              : startGame()
+          }
+        >
           Start Game
         </button>
       </Footer>
