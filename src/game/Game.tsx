@@ -7,7 +7,7 @@ import {
   footerStyle,
 } from "../styles/global.css.ts"
 import * as styles from "./game.css.ts"
-import * as modules from "./game.module.css"
+import modules from "./game.module.css"
 import { vars } from "../styles/theme.css.ts"
 
 const { Header, Content, Footer } = Layout
