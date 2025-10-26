@@ -226,13 +226,14 @@ export const Game = ({
                 <LargeKeypadButton
                   label={
                     <div>
-                      <p className={styles.footerVaultButtonLabelStyle}>
+                      <p className={modules.footerVaultButtonLabelStyle}>
                         Vault
                       </p>
+                      {/* I need to clip a little border around the following picture to get rid of white space */}
                       <img
                         src="/src/assets/vault_icon.svg"
                         alt="Vault"
-                        className={styles.footerVaultButtonIconStyle}
+                        className={modules.footerVaultButtonIconStyle}
                       />
                     </div>
                   }
@@ -242,10 +243,10 @@ export const Game = ({
                   disabled={currentRoundRolls.length < 3}
                   label={
                     <div>
-                      <p className={styles.footerVaultButtonLabelStyle}>
+                      <p className={modules.footerVaultButtonLabelStyle}>
                         Double
                       </p>
-                      <p className={styles.footerVaultButtonDoubleLabelStyle}>
+                      <p className={modules.footerVaultButtonDoubleLabelStyle}>
                         x2
                       </p>
                     </div>

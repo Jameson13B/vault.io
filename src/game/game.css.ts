@@ -247,22 +247,3 @@ export const footerVaultButtonConfirmStyle = style({
   fontFamily: "Rajdhani",
   border: `1px solid ${vars.color.yellow}`,
 })
-export const footerVaultButtonLabelStyle = style({
-  margin: 0,
-  fontSize: 16,
-  fontWeight: 700,
-  lineHeight: "100%",
-  fontFamily: "Rajdhani",
-})
-export const footerVaultButtonIconStyle = style({
-  width: 28,
-  height: 28,
-  marginTop: 4,
-})
-export const footerVaultButtonDoubleLabelStyle = style({
-  fontFamily: "Changa",
-  fontWeight: 200,
-  fontSize: 24,
-  lineHeight: "70%",
-  margin: "10px 0 0 0",
-})
