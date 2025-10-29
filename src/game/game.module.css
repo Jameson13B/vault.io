@@ -20,6 +20,12 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 100%;
+  cursor: pointer;
+}
+.activePlayerVaultItemSelected {
+  background: var(--darkyellow);
+  color: var(--dark);
+  border-color: var(--darkyellow);
 }
 .activePlayerName {
   display: flex;
@@ -32,6 +38,12 @@
   width: 51px;
   margin: 0;
   padding: 16px 0;
+}
+.activePlayerScoreSelected {
+  background: var(--dark);
+  color: var(--darkyellow);
+  border-color: var(--darkyellow);
+  border-radius: 0 12px 12px 0;
 }
 
 /* Footer Styles */

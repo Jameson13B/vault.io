@@ -90,12 +90,35 @@ export const Game = ({
             {gameState.players
               .filter((p) => !p.is_vaulted)
               .sort((a, b) => b.score - a.score)
-              .map((p) => (
-                <div className={modules.activePlayersItemStyle}>
-                  <p className={modules.activePlayerName}>{p.name}</p>
-                  <p className={modules.activePlayerScore}>{p.score}</p>
-                </div>
-              ))}
+              .map((p) => {
+                const isVaulted = playersToVault.includes(p)
+
+                return (
+                  <div
+                    className={`${modules.activePlayersItemStyle} ${
+                      isVaulted && modules.activePlayerVaultItemSelected
+                    }`}
+                    onClick={() =>
+                      isVaulted
+                        ? setPlayersToVault(
+                            playersToVault.filter((p) => p.id !== p.id)
+                          )
+                        : setPlayersToVault([...playersToVault, p])
+                    }
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <p className={modules.activePlayerName}>{p.name}</p>
+                    <p
+                      className={`${modules.activePlayerScore} ${
+                        isVaulted && modules.activePlayerScoreSelected
+                      }`}
+                    >
+                      {p.score}
+                    </p>
+                  </div>
+                )
+              })}
           </div>
         </div>
       </Content>
@@ -160,7 +183,15 @@ export const Game = ({
                         <p style={{ margin: 0, fontSize: 10 }}>Undo</p>
                       </div>
                     }
-                    onClick={handle.undoRoll}
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "NOTICE: CANNOT UNDO A VAULT!!\n\nAre you sure you want to undo?"
+                        )
+                      ) {
+                        handle.undoRoll()
+                      }
+                    }}
                   />
                   <KeypadButton
                     disabled={currentRoundRolls.length >= 3}
