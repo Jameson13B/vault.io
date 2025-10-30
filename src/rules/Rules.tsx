@@ -27,6 +27,7 @@ export const Rules = ({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            borderBottom: `1px solid ${vars.color.yellow}`,
           }}
         >
           <h1 style={{ color: vars.color.yellow }}>Rules</h1>
