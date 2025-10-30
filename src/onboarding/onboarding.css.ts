@@ -23,27 +23,27 @@ export const formStyle = style({
 })
 export const inputStyle = style({
   background: vars.color.dark,
-  border: `1px solid ${vars.color.darkyellow}`,
+  border: `1px solid ${vars.color.yellow}`,
   borderRadius: 12,
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   fontSize: 20,
   fontWeight: 700,
   height: 55,
   padding: "14.5px 16px",
   outline: "none",
   "::placeholder": {
-    color: vars.color.darkyellow,
+    color: vars.color.yellow,
     opacity: 0.5,
   },
   selectors: {
     "&:focus, &:hover": {
       background: vars.color.dark,
-      borderColor: vars.color.darkyellow,
+      borderColor: vars.color.yellow,
     },
   },
 })
 export const headerButtonStyle = style({
-  background: vars.color.darkyellow,
+  background: vars.color.yellow,
   border: "0.5px solid #cca209",
   color: vars.color.dark,
   fontFamily: "Rajdhani",
@@ -54,7 +54,7 @@ export const headerButtonStyle = style({
   outline: "none",
   selectors: {
     "&:hover": {
-      background: vars.color.darkyellow,
+      background: vars.color.yellow,
     },
   },
 })
@@ -75,13 +75,13 @@ export const playerCardStyle = style({
   justifyContent: "space-between",
   alignItems: "center",
   borderRadius: 12,
-  border: `1px solid ${vars.color.liteyellow}`,
+  border: `1px solid ${vars.color.yellow}`,
   background: vars.color.dark,
   width: "calc(50% - 16px)",
   maxHeight: 55,
 })
 export const playerNameStyle = style({
-  color: vars.color.liteyellow,
+  color: vars.color.yellow,
   fontFamily: "Rajdhani",
   textAlign: "start",
   fontSize: 20,
@@ -94,9 +94,9 @@ export const playerNameStyle = style({
 export const removeButtonStyle = style({
   background: "transparent",
   border: "none",
-  borderLeft: `1px solid ${vars.color.liteyellow}`,
+  borderLeft: `1px solid ${vars.color.yellow}`,
   borderRadius: 0,
-  color: vars.color.liteyellow,
+  color: vars.color.yellow,
   cursor: "pointer",
   height: "100%",
   textAlign: "center",
@@ -128,8 +128,8 @@ export const footerButtonContainerStyle = style({
 })
 export const footerButtonStyle = style({
   background: "transparent",
-  border: `1px solid ${vars.color.darkyellow}`,
-  color: vars.color.darkyellow,
+  border: `1px solid ${vars.color.yellow}`,
+  color: vars.color.yellow,
   fontSize: 16,
   fontWeight: 700,
   outline: "none",
@@ -137,7 +137,7 @@ export const footerButtonStyle = style({
   width: "75px",
   selectors: {
     "&:hover": {
-      background: vars.color.liteyellow,
+      background: vars.color.yellow,
       color: vars.color.dark,
     },
     "&.active": {
@@ -157,7 +157,7 @@ export const footerStartButtonStyle = style({
   fontWeight: 700,
   selectors: {
     "&:hover": {
-      background: vars.color.liteyellow,
+      background: vars.color.yellow,
     },
   },
 })

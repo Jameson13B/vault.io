@@ -13,7 +13,7 @@ const { Header, Content, Footer } = Layout
 export const GameOver = ({ gameState }: { gameState: GameState }) => {
   return (
     <Layout className={layoutStyle}>
-      <Header className={headerStyle} id="step-header">
+      <Header className={headerStyle} id='step-header'>
         <h1 className={styles.gameOverHeaderTitleStyle}>End of game</h1>
         <p className={styles.gameOverStatsTextStyle}>
           {`${
@@ -21,7 +21,7 @@ export const GameOver = ({ gameState }: { gameState: GameState }) => {
           } Wins!`}
         </p>
       </Header>
-      <Content className={contentStyle} id="step-content">
+      <Content className={contentStyle} id='step-content'>
         <div className={styles.gameOverContentStyle}>
           {gameState.players
             .sort((a, b) => b.score - a.score)
@@ -31,7 +31,7 @@ export const GameOver = ({ gameState }: { gameState: GameState }) => {
                 key={player.id}
                 style={{
                   backgroundColor:
-                    i === 0 ? vars.color.darkyellow : vars.color.dark,
+                    i === 0 ? vars.color.yellow : vars.color.dark,
                   color: i === 0 ? vars.color.dark : vars.color.yellow,
                 }}
               >
@@ -45,7 +45,7 @@ export const GameOver = ({ gameState }: { gameState: GameState }) => {
       </Content>
       <Footer
         className={footerStyle}
-        id="step-footer"
+        id='step-footer'
         style={{ padding: "0 16px 16px" }}
       >
         <div className={styles.footerButtonContainerStyle}>

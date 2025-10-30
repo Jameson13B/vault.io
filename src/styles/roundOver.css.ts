@@ -3,7 +3,7 @@ import { vars } from "./theme.css.ts"
 
 // Header
 export const roundOverHeaderTitleStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   fontSize: 48,
   marginBottom: 16,
   marginTop: 60,
@@ -16,13 +16,13 @@ export const flexCenterStyle = style({
   marginBottom: 60,
 })
 export const roundOverStatsTextStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   margin: 0,
   padding: 0,
   marginRight: 8,
 })
 export const roundOverStatsBoxStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   padding: "4px 12px",
   borderRadius: 12,
   border: `1px solid ${vars.color.yellow}`,
@@ -48,13 +48,13 @@ export const roundOverPlayerCardStyle = style({
   border: `1px solid ${vars.color.yellow}`,
 })
 export const roundOverPlayerNameStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   fontSize: 16,
   margin: 0,
   padding: 0,
 })
 export const roundOverPlayerScoreStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   fontSize: 16,
   margin: 0,
   padding: 0,

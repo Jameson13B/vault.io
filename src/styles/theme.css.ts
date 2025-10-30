@@ -2,9 +2,7 @@ import { createGlobalTheme, globalStyle } from "@vanilla-extract/css"
 
 export const vars = createGlobalTheme("*", {
   color: {
-    liteyellow: "#f3ce75",
     yellow: "#ffdd00",
-    darkyellow: "#b98a03",
     red: "#5c1a09",
     dark: "#1c1f21",
     gradient:

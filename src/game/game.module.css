@@ -15,7 +15,7 @@
   max-width: 200px;
   border: 1px solid #f3ce75;
   border-radius: 12px;
-  color: var(--liteyellow);
+  color: var(--yellow);
   font-family: Rajdhani;
   font-size: 20px;
   font-weight: 700;
@@ -23,9 +23,9 @@
   cursor: pointer;
 }
 .activePlayerVaultItemSelected {
-  background: var(--darkyellow);
+  background: var(--yellow);
   color: var(--dark);
-  border-color: var(--darkyellow);
+  border-color: var(--yellow);
 }
 .activePlayerName {
   display: flex;
@@ -34,15 +34,15 @@
   margin: 0;
 }
 .activePlayerScore {
-  border-left: 1px solid var(--liteyellow);
+  border-left: 1px solid var(--yellow);
   width: 51px;
   margin: 0;
   padding: 16px 0;
 }
 .activePlayerScoreSelected {
   background: var(--dark);
-  color: var(--darkyellow);
-  border-color: var(--darkyellow);
+  color: var(--yellow);
+  border-color: var(--yellow);
   border-radius: 0 12px 12px 0;
 }
 

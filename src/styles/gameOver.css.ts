@@ -3,14 +3,14 @@ import { vars } from "./theme.css.ts"
 
 // Header
 export const gameOverHeaderTitleStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   fontSize: 48,
   fontWeight: 500,
   marginBottom: 16,
   marginTop: 14,
 })
 export const gameOverStatsTextStyle = style({
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   margin: 0,
   padding: 0,
   marginRight: 8,
@@ -74,7 +74,7 @@ export const gameOverButtonStyle = style({
   },
 })
 export const gameOverStartButtonStyle = style({
-  background: vars.color.darkyellow,
+  background: vars.color.yellow,
   border: "0.5px solid #cca209",
   color: vars.color.dark,
   fontSize: 16,
