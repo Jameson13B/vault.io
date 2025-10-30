@@ -69,7 +69,7 @@ export const contentVaultedPlayersStyle = style({
   flexDirection: "column",
   alignItems: "center",
   alignSelf: "stretch",
-  margin: "0 0 0 12px",
+  margin: "0 0 16px 0",
   minWidth: 90,
 })
 export const contentVaultedPlayersLabelStyle = style({
