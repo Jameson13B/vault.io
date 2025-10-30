@@ -11,6 +11,7 @@ import * as styles from "./game.css.ts"
 import modules from "./game.module.css"
 import { vars } from "../styles/theme.css.ts"
 import { doubleRoll } from "../hooks/useVault.tsx"
+import Logo from "../assets/Logo.svg"
 
 const { Header, Content, Footer } = Layout
 
@@ -29,10 +30,10 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
       <Header
         className={headerStyle}
         style={{ lineHeight: "initial" }}
-        id="step-header"
+        id='step-header'
       >
         <div className={styles.headerContainer1Style}>
-          <h1 className={styles.headerTitleStyle}>Vault</h1>
+          <Logo />
           <div>
             <p className={styles.headerRoundLabelStyle}>Round</p>
             <p className={styles.headerRoundValueStyle}>
@@ -58,7 +59,7 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
 
       <Content
         className={contentStyle}
-        id="step-content"
+        id='step-content'
         style={{ display: "flex" }}
       >
         <div className={styles.contentContainerStyle}>
@@ -106,7 +107,7 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
                           )
                         : setPlayersToVault([...playersToVault, p])
                     }
-                    role="button"
+                    role='button'
                     tabIndex={0}
                   >
                     <p className={modules.activePlayerName}>{p.name}</p>
@@ -126,7 +127,7 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
 
       <Footer
         className={footerStyle}
-        id="step-footer"
+        id='step-footer'
         style={{
           padding: 16,
           marginBottom: "none",
@@ -172,8 +173,8 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
                     label={
                       <div>
                         <img
-                          src="/src/assets/undo_icon.svg"
-                          alt="React logo"
+                          src='/src/assets/undo_icon.svg'
+                          alt='React logo'
                           style={{
                             width: 15,
                             height: 16,
@@ -188,17 +189,17 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
                   />
                   <KeypadButton
                     disabled={currentRoundRolls.length >= 3}
-                    label="2"
+                    label='2'
                     onClick={() => handle.rollDice(2)}
                   />
-                  <KeypadButton label="3" onClick={() => handle.rollDice(3)} />
+                  <KeypadButton label='3' onClick={() => handle.rollDice(3)} />
                 </div>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <KeypadButton label="4" onClick={() => handle.rollDice(4)} />
-                  <KeypadButton label="5" onClick={() => handle.rollDice(5)} />
-                  <KeypadButton label="6" onClick={() => handle.rollDice(6)} />
+                  <KeypadButton label='4' onClick={() => handle.rollDice(4)} />
+                  <KeypadButton label='5' onClick={() => handle.rollDice(5)} />
+                  <KeypadButton label='6' onClick={() => handle.rollDice(6)} />
                 </div>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -209,28 +210,28 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
                         ? { backgroundColor: vars.color.red }
                         : { backgroundColor: vars.color.dark }
                     }
-                    label="7"
+                    label='7'
                     onClick={() => handle.rollDice(7)}
                   />
-                  <KeypadButton label="8" onClick={() => handle.rollDice(8)} />
-                  <KeypadButton label="9" onClick={() => handle.rollDice(9)} />
+                  <KeypadButton label='8' onClick={() => handle.rollDice(8)} />
+                  <KeypadButton label='9' onClick={() => handle.rollDice(9)} />
                 </div>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <KeypadButton
-                    label="10"
+                    label='10'
                     onClick={() => handle.rollDice(10)}
                     stylesOverride={{ marginBottom: 0 }}
                   />
                   <KeypadButton
-                    label="11"
+                    label='11'
                     onClick={() => handle.rollDice(11)}
                     stylesOverride={{ marginBottom: 0 }}
                   />
                   <KeypadButton
                     disabled={currentRoundRolls.length >= 3}
-                    label="12"
+                    label='12'
                     onClick={() => handle.rollDice(12)}
                     stylesOverride={{ marginBottom: 0 }}
                   />
@@ -261,8 +262,8 @@ export const Game = ({ handle, gameState }: useVaultReturnProps) => {
                       </p>
                       {/* I need to clip a little border around the following picture to get rid of white space */}
                       <img
-                        src="/src/assets/vault_icon.svg"
-                        alt="Vault"
+                        src='/src/assets/vault_icon.svg'
+                        alt='Vault'
                         className={modules.footerVaultButtonIconStyle}
                       />
                     </div>
