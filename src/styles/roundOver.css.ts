@@ -43,19 +43,21 @@ export const roundOverPlayerCardStyle = style({
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "16px 17.5px",
+  padding: "16px 16px",
   borderRadius: 12,
   border: `1px solid ${vars.color.yellow}`,
 })
 export const roundOverPlayerNameStyle = style({
   color: vars.color.yellow,
-  fontSize: 16,
+  fontSize: 20,
+  fontStyle: "bold",
   margin: 0,
   padding: 0,
 })
 export const roundOverPlayerScoreStyle = style({
   color: vars.color.yellow,
-  fontSize: 16,
+  fontSize: 20,
+  fontStyle: "bold",
   margin: 0,
   padding: 0,
 })

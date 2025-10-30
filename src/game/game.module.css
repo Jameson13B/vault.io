@@ -13,7 +13,7 @@
   align-items: center;
   width: 100%;
   max-width: 200px;
-  border: 1px solid #f3ce75;
+  border: 1px solid var(--yellow);
   border-radius: 12px;
   color: var(--yellow);
   font-family: Rajdhani;
