@@ -5,37 +5,35 @@ import styles from "./rules.module.css"
 import { vars } from "../styles/theme.css"
 
 export const Rules = ({
-  setShowRules,
+  handle,
 }: {
-  setShowRules: (show: boolean) => void
-}) => {
-  return (
-    <Layout className={layoutStyle}>
-      <Header
-        className={headerStyle}
-        id="step-header"
-        style={{ lineHeight: "initial" }}
+  handle: useVaultReturnProps["handle"]
+}) => (
+  <Layout className={layoutStyle}>
+    <Header
+      className={headerStyle}
+      id="step-header"
+      style={{ lineHeight: "initial" }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+        <h1 style={{ color: vars.color.darkyellow }}>Rules</h1>
+        <button
+          className={styles.headerRulesButtonStyle}
+          onClick={handle.toggleRules}
         >
-          <h1 style={{ color: vars.color.darkyellow }}>Rules</h1>
-          <button
-            className={styles.headerRulesButtonStyle}
-            onClick={() => setShowRules(false)}
-          >
-            Close
-          </button>
-        </div>
-      </Header>
-      <Content className={contentStyle} id="step-content">
-        {/* TODO: Add rules content here */}
-        <strong style={{ color: vars.color.yellow }}>Coming Soon...</strong>
-      </Content>
-    </Layout>
-  )
-}
+          Close
+        </button>
+      </div>
+    </Header>
+    <Content className={contentStyle} id="step-content">
+      {/* TODO: Add rules content here */}
+      <strong style={{ color: vars.color.yellow }}>Coming Soon...</strong>
+    </Content>
+  </Layout>
+)

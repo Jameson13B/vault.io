@@ -52,14 +52,14 @@ export const GameOver = ({ gameState }: { gameState: GameState }) => {
           <Button
             className={styles.gameOverButtonStyle}
             type="primary"
-            // onClick={() => changeStep(() => setIsOnboarding(false))}
+            onClick={() => alert("Replay coming soon!")}
           >
             Replay
           </Button>
           <Button
             className={styles.gameOverStartButtonStyle}
             type="primary"
-            // onClick={() => changeStep(() => setIsOnboarding(true))}
+            onClick={() => alert("Change players coming soon!")}
           >
             Change Players
           </Button>

@@ -4,13 +4,7 @@ import * as styles from "../styles/roundOver.css.ts"
 
 const { Header, Content } = Layout
 
-export const RoundOver = ({
-  gameState,
-  rounds,
-}: {
-  gameState: GameState
-  rounds: number
-}) => {
+export const RoundOver = ({ gameState }: { gameState: GameState }) => {
   return (
     <Layout className={layoutStyle}>
       <Header className={headerStyle} id="step-header">
@@ -18,13 +12,13 @@ export const RoundOver = ({
         <div className={styles.flexCenterStyle}>
           <p className={styles.roundOverStatsTextStyle}>Round</p>
           <p className={styles.roundOverStatsBoxStyle}>
-            {gameState.current_round}/{rounds}
+            {gameState.currentRound}/{gameState.maxRounds}
           </p>
         </div>
       </Header>
       <Content className={contentStyle} id="step-content">
         <div className={styles.roundOverContentStyle}>
-          {gameState.players
+          {[...gameState.players]
             .sort((a, b) => b.score - a.score)
             .map((player) => (
               <div className={styles.roundOverPlayerCardStyle} key={player.id}>

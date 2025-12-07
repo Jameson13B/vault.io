@@ -8,9 +8,13 @@ interface useVaultReturnProps {
     addPlayer: (name: string) => void
     removePlayer: (name: string) => void
     rollDice: (roll: number | "double") => void
-    undoRoll: () => void
+    // undoRoll: () => void
     vault: (playersToVault: number[]) => void
     replayGame: () => void
+    toggleOnboarding: () => void
+    toggleRules: () => void
+    toggleVaulting: () => void
+    setRounds: (rounds: number) => void
   }
 }
 interface Player {
@@ -25,26 +29,13 @@ interface Roll {
   round: number
 }
 interface GameState {
-  round_over: boolean
-  game_over: boolean
-  current_round: number
-  players: Player[]
-  roll_history: Roll[]
-}
-
-interface GameProps {
-  currentRolls: Roll[]
-  gameState: GameState
-  handle: {
-    addPlayer: (name: string) => void
-    removePlayer: (name: string) => void
-    rollDice: (roll: number | "DOUBLE") => void
-    undoRoll: () => void
-    vault: (playersToVault: number[]) => void
-    replayGame: () => void
-  }
+  showRules: boolean
+  isOnboarding: boolean
   isVaulting: boolean
-  rounds: number
-  setIsVaulting: (isVaulting: boolean) => void
-  setShowRules: (show: boolean) => void
+  isRoundOver: boolean
+  isGameOver: boolean
+  currentRound: number
+  maxRounds: number
+  players: Player[]
+  rollHistory: Roll[]
 }

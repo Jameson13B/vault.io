@@ -20,11 +20,12 @@ interface Player {
   id: number
 }
 interface GameState {
-  round_over: boolean
-  game_over: boolean
-  current_round: number
+  roundOver: boolean
+  gameOver: boolean
+  currentRound: number
+  maxRounds: number
   players: Player[]
-  roll_history: Roll[]
+  rollHistory: Roll[]
 }
 
 export { useVault } from "./useVault.tsx"

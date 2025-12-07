@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react"
 import { Layout } from "antd"
+
 import {
   layoutStyle,
   headerStyle,
@@ -9,22 +10,18 @@ import {
 import * as styles from "./game.css.ts"
 import modules from "./game.module.css"
 import { vars } from "../styles/theme.css.ts"
+import { doubleRoll } from "../hooks/useVault.tsx"
 
 const { Header, Content, Footer } = Layout
 
-export const Game = ({
-  gameState,
-  handle,
-  isVaulting,
-  rounds,
-  setIsVaulting,
-  setShowRules,
-}: GameProps) => {
-  const currentRoundRolls = useMemo(() => {
-    return gameState.roll_history.filter(
-      (roll) => roll.round === gameState.current_round
-    )
-  }, [gameState.current_round, gameState.roll_history])
+export const Game = ({ handle, gameState }: useVaultReturnProps) => {
+  const currentRoundRolls = useMemo(
+    () =>
+      gameState.rollHistory.filter(
+        (roll) => roll.round === gameState.currentRound
+      ),
+    [gameState.currentRound, gameState.rollHistory]
+  )
   const [playersToVault, setPlayersToVault] = useState<Player[]>([])
 
   return (
@@ -39,20 +36,20 @@ export const Game = ({
           <div>
             <p className={styles.headerRoundLabelStyle}>Round</p>
             <p className={styles.headerRoundValueStyle}>
-              {gameState.current_round}/{rounds}
+              {gameState.currentRound}/{gameState.maxRounds}
             </p>
           </div>
           <button
             className={styles.headerRulesButtonStyle}
-            onClick={() => setShowRules(true)}
+            onClick={handle.toggleRules}
           >
             Rules
           </button>
         </div>
         <div>
           <h1 className={styles.headerScoreStyle}>
-            {gameState.roll_history
-              .filter((roll) => roll.round === gameState.current_round)
+            {gameState.rollHistory
+              .filter((roll) => roll.round === gameState.currentRound)
               .reduce((acc, roll) => acc + Number(roll.value), 0)}{" "}
             Points
           </h1>
@@ -75,7 +72,10 @@ export const Game = ({
               {gameState.players
                 .filter((p) => p.is_vaulted)
                 .map((p) => (
-                  <div className={styles.contentVaultedPlayersItemStyle}>
+                  <div
+                    key={p.id}
+                    className={styles.contentVaultedPlayersItemStyle}
+                  >
                     <p className={styles.contentVaultedPlayersItemNameStyle}>
                       {p.name}
                     </p>
@@ -95,6 +95,7 @@ export const Game = ({
 
                 return (
                   <div
+                    key={p.id}
                     className={`${modules.activePlayersItemStyle} ${
                       isVaulted && modules.activePlayerVaultItemSelected
                     }`}
@@ -135,7 +136,7 @@ export const Game = ({
           borderTop: `2px solid ${vars.color.yellow}`,
         }}
       >
-        {!isVaulting ? (
+        {!gameState.isVaulting ? (
           <>
             <div className={styles.footerStatusBarStyle}>
               <p className={styles.footerStatusBarPlayerLabelStyle}>
@@ -183,15 +184,7 @@ export const Game = ({
                         <p style={{ margin: 0, fontSize: 10 }}>Undo</p>
                       </div>
                     }
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "NOTICE: CANNOT UNDO A VAULT!!\n\nAre you sure you want to undo?"
-                        )
-                      ) {
-                        handle.undoRoll()
-                      }
-                    }}
+                    onClick={() => alert("Undo not implemented")}
                   />
                   <KeypadButton
                     disabled={currentRoundRolls.length >= 3}
@@ -274,7 +267,7 @@ export const Game = ({
                       />
                     </div>
                   }
-                  onClick={() => setIsVaulting(true)}
+                  onClick={() => handle.toggleVaulting()}
                 />
                 <LargeKeypadButton
                   disabled={currentRoundRolls.length < 3}
@@ -288,7 +281,7 @@ export const Game = ({
                       </p>
                     </div>
                   }
-                  onClick={() => handle.rollDice("DOUBLE")}
+                  onClick={() => handle.rollDice(doubleRoll)}
                 />
               </div>
             </div>
@@ -302,7 +295,7 @@ export const Game = ({
               <button
                 className={`${styles.footerVaultButtonStyle} ${styles.footerVaultButtonCancelStyle}`}
                 onClick={() => {
-                  setIsVaulting(false)
+                  handle.toggleVaulting()
                   setPlayersToVault([])
                 }}
               >
@@ -312,7 +305,6 @@ export const Game = ({
                 className={`${styles.footerVaultButtonStyle} ${styles.footerVaultButtonConfirmStyle}`}
                 onClick={() => {
                   handle.vault(playersToVault.map((p) => p.id))
-                  setIsVaulting(false)
                   setPlayersToVault([])
                 }}
               >

@@ -93,7 +93,7 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
             ? 0
             : 70
         } else if (roll === "double") {
-          return getCurrentRoundTotal(gameState)
+          return roundTotal(gameState)
         } else {
           return roll
         }
@@ -156,7 +156,7 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
       roll_queue.forEach((player) => {
         if (playersToVault.includes(player.id)) {
           player.is_vaulted = true
-          player.score += getCurrentRoundTotal(gameState)
+          player.score += roundTotal(gameState)
         }
       })
 
@@ -205,7 +205,7 @@ export const useVault = (props: useVaultRequestProps): useVaultReturnProps => {
 /**
  * Calculates the total value of the current round in the game state.
  */
-export const getCurrentRoundTotal = (gameState: GameState) => {
+export const roundTotal = (gameState: GameState) => {
   return gameState.roll_history
     .filter((roll) => roll.round === gameState.current_round)
     .reduce((acc, cur) => (cur.value === "double" ? acc : acc + cur.value), 0)
