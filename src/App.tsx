@@ -1,80 +1,30 @@
-import { useState } from 'react'
+import { useRef } from "react"
 
-import { Footer } from './footer/Footer'
-import { Header } from './header/Header'
-import { useVault } from 'usevault'
-import { Leaderboard } from './leaderboard/Leaderboard'
-import {
-  OnboardingLeaderboard,
-  OnboardingFooter,
-} from './onboarding/Onboarding'
+import { Onboarding } from "./onboarding/Onboarding"
+import { Game } from "./game/Game"
+import { Rules } from "./rules/Rules"
+import { RoundOver } from "./transitions/RoundOver"
+import { GameOver } from "./transitions/GameOver"
+import { useVault } from "./hooks"
 
 function App() {
-  const [isOnboarding, setIsOnboarding] = useState(true)
-  const [isVaulting, setIsVaulting] = useState(false)
-  const [rounds, setRounds] = useState(10)
-  const [playersToVault, setPlayersToVault] = useState<number[]>([])
-  const {
-    gameState,
-    addPlayer,
-    removePlayer,
-    rollDice,
-    undoRoll,
-    vault,
-    replay,
-  } = useVault({
-    rounds: rounds,
-  })
+  const container = useRef(null)
+  const { gameState, handle } = useVault()
+
+  if (gameState.showRules) return <Rules handle={handle} />
 
   return (
-    <>
-      <Header
-        addPlayer={addPlayer}
-        gameState={gameState}
-        isOnboarding={isOnboarding}
-      />
-      {isOnboarding ? (
-        <OnboardingLeaderboard
-          gameState={gameState}
-          removePlayer={removePlayer}
-        />
-      ) : (
-        <Leaderboard
-          gameState={gameState}
-          isVaulting={isVaulting}
-          playersToVault={playersToVault}
-          setPlayersToVault={setPlayersToVault}
-        />
+    <div ref={container} style={{ height: "100%" }}>
+      {gameState.isGameOver && <GameOver gameState={gameState} />}
+      {gameState.isRoundOver && <RoundOver gameState={gameState} />}
+      {gameState.isOnboarding && (
+        <Onboarding handle={handle} gameState={gameState} />
       )}
-      {isOnboarding ? (
-        <OnboardingFooter
-          rounds={rounds}
-          setIsOnboarding={setIsOnboarding}
-          setRounds={(rounds) => setRounds(rounds)}
-        />
-      ) : (
-        !gameState.round_over && (
-          <Footer
-            gameState={gameState}
-            isVaulting={isVaulting}
-            playersToVault={playersToVault}
-            rollDice={rollDice}
-            rounds={rounds}
-            setIsVaulting={setIsVaulting}
-            setIsOnboarding={setIsOnboarding}
-            setPlayersToVault={setPlayersToVault}
-            setRounds={setRounds}
-            vault={vault}
-            replay={replay}
-            undoRoll={undoRoll}
-          />
-        )
+      {!gameState.isOnboarding && (
+        <Game handle={handle} gameState={gameState} />
       )}
-    </>
+    </div>
   )
 }
 
 export default App
-
-// TODO:
-// - Add rules
