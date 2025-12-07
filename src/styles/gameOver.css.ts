@@ -55,7 +55,7 @@ export const footerButtonContainerStyle = style({
 })
 export const gameOverButtonStyle = style({
   background: "transparent",
-  border: `0.5px solid ${vars.color.white}`,
+  border: `0.5px solid ${vars.color.yellow}`,
   fontSize: 16,
   height: "100%",
   outline: "none",
@@ -64,11 +64,11 @@ export const gameOverButtonStyle = style({
   maxHeight: 43,
   selectors: {
     "&:hover": {
-      background: vars.color.white,
+      background: vars.color.yellow,
       color: vars.color.dark,
     },
     "&.active": {
-      background: vars.color.white,
+      background: vars.color.yellow,
       color: vars.color.dark,
     },
   },
@@ -85,7 +85,7 @@ export const gameOverStartButtonStyle = style({
   maxHeight: 43,
   selectors: {
     "&:hover": {
-      background: vars.color.darkbrown,
+      background: vars.color.darkyellow,
     },
   },
 })
