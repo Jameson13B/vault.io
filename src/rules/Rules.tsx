@@ -7,8 +7,8 @@ import { vars } from "../styles/theme.css"
 import order from "../assets/rules/order.png"
 import tinyDice from "../assets/rules/example_tiny_dice.png"
 import safeRoll from "../assets/rules/safeRoll.png"
-import exampleOne from "../assets/rules/example_one.svg?react"
-import exampleTwo from "../assets/rules/example_two.svg?react"
+import exampleOne from "../assets/rules/example_one.svg?url"
+import exampleTwo from "../assets/rules/example_two.svg?url"
 
 export const Rules = ({
   handle,
