@@ -85,7 +85,7 @@ export const gameOverStartButtonStyle = style({
   maxHeight: 43,
   selectors: {
     "&:hover": {
-      background: vars.color.darkyellow,
+      background: vars.color.red,
     },
   },
 })
