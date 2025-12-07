@@ -7,6 +7,7 @@ import {
 } from "../styles/global.css.ts"
 import styles from "./onboarding.css.ts"
 import { useState } from "react"
+import Logo from "../assets/Logo.svg"
 
 const { Header, Content, Footer } = Layout
 
@@ -21,13 +22,13 @@ export const Onboarding = ({ handle, gameState }: OnboardingProps) => {
   return (
     <Layout className={layoutStyle}>
       {/* Header */}
-      <Header className={headerStyle} id="step-header">
-        <h1 className={styles.headerTitleStyle}>VAULT</h1>
+      <Header className={headerStyle} id='step-header'>
+        <Logo />
       </Header>
       {/* Main */}
       <Content
         className={contentStyle}
-        id="step-content"
+        id='step-content'
         style={{
           display: "flex",
           flexDirection: "column",
@@ -59,17 +60,17 @@ export const Onboarding = ({ handle, gameState }: OnboardingProps) => {
         >
           <Input
             className={styles.inputStyle}
-            placeholder="Enter player name"
+            placeholder='Enter player name'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button className={styles.headerButtonStyle} type="submit">
+          <button className={styles.headerButtonStyle} type='submit'>
             Add
           </button>
         </form>
       </Content>
       {/* Footer */}
-      <Footer className={footerStyle} id="step-footer">
+      <Footer className={footerStyle} id='step-footer'>
         <h2 className={styles.footerTitleStyle}>Select number of turns</h2>
         <div className={styles.footerButtonContainerStyle}>
           <button

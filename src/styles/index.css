@@ -12,9 +12,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Global Variables */
-  --liteyellow: #F3CE75;
-  --yellow: #F3C70D;
-  --darkyellow: #B98A03;
+  --yellow: #FFDD00;
   --dark: #1C1F21;
   --red: #5C1A09;
 }

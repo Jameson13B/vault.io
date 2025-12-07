@@ -18,15 +18,15 @@ export const headerTitleStyle = style({
   lineHeight: "50%",
 })
 export const headerRoundLabelStyle = style({
-  borderBottom: `1px solid ${vars.color.liteyellow}`,
-  color: vars.color.liteyellow,
+  borderBottom: `1px solid ${vars.color.yellow}`,
+  color: vars.color.yellow,
   textAlign: "center",
   fontSize: 20,
   fontWeight: 400,
   margin: 0,
 })
 export const headerRoundValueStyle = style({
-  color: vars.color.liteyellow,
+  color: vars.color.yellow,
   textAlign: "center",
   fontSize: 24,
   fontWeight: 400,
@@ -35,8 +35,8 @@ export const headerRoundValueStyle = style({
 export const headerRulesButtonStyle = style({
   background: "transparent",
   borderRadius: 12,
-  border: `1px solid ${vars.color.darkyellow}`,
-  color: vars.color.darkyellow,
+  border: `1px solid ${vars.color.yellow}`,
+  color: vars.color.yellow,
   fontSize: 16,
   fontWeight: 700,
   width: 84,
@@ -62,14 +62,14 @@ export const contentContainerStyle = style({
   flex: "1 0 0",
 })
 export const contentVaultedPlayersStyle = style({
-  background: vars.color.darkyellow,
+  background: vars.color.yellow,
   borderRadius: "0 12px 12px 0",
   display: "flex",
   padding: 0,
   flexDirection: "column",
   alignItems: "center",
   alignSelf: "stretch",
-  margin: "12px 0px",
+  margin: "0 0 16px 0",
   minWidth: 90,
 })
 export const contentVaultedPlayersLabelStyle = style({
@@ -105,7 +105,7 @@ export const contentVaultedPlayersItemNameStyle = style({
   padding: "0px 4px",
   flex: "1 0 0",
   alignSelf: "stretch",
-  color: vars.color.darkyellow,
+  color: vars.color.yellow,
   textAlign: "center",
   fontSize: 20,
   fontWeight: 700,
@@ -123,7 +123,7 @@ export const contentVaultedPlayersItemScoreStyle = style({
   flex: "1 0 0",
   alignSelf: "stretch",
   borderLeft: `1px solid ${vars.color.dark}`,
-  background: vars.color.darkyellow,
+  background: vars.color.yellow,
   margin: "0 0.5px 1px 0",
   borderRadius: "0px 0px 11px 11px",
 })
@@ -150,13 +150,13 @@ export const contentActivePlayersStyle = style({
 // justifyContent: "space-between",
 // alignItems: "center",
 // borderRadius: 12,
-// border: `1px solid ${vars.color.liteyellow}`,
+// border: `1px solid ${vars.color.yellow}`,
 // background: vars.color.dark,
 // width: "calc(50% - 16px)",
 // maxHeight: 55,
 // })
 // export const playerNameStyle = style({
-//   color: vars.color.liteyellow,
+//   color: vars.color.yellow,
 //   fontFamily: "Rajdhani",
 //   fontSize: 16,
 //   margin: 0,
@@ -164,7 +164,7 @@ export const contentActivePlayersStyle = style({
 //   padding: "16px 0 16px 16px",
 // })
 // export const playerScoreStyle = style({
-// color: vars.color.liteyellow,
+// color: vars.color.yellow,
 // fontFamily: "Rajdhani",
 // fontSize: 20,
 //   lineHeight: "normal",

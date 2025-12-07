@@ -8,7 +8,7 @@ export const RoundOver = ({ gameState }: { gameState: GameState }) => {
   return (
     <Layout className={layoutStyle}>
       <Header className={headerStyle} id="step-header">
-        <h1 className={styles.roundOverHeaderTitleStyle}>End of turn</h1>
+        <h1 className={styles.roundOverHeaderTitleStyle}>End of Round</h1>
         <div className={styles.flexCenterStyle}>
           <p className={styles.roundOverStatsTextStyle}>Round</p>
           <p className={styles.roundOverStatsBoxStyle}>
